@@ -1,0 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package orchestra;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author 5928036
+ */
+public class MelodyReader {
+    public static List<Melody> read(String path) throws IOException {
+        List<Melody> melodies = new ArrayList<>();
+        
+        String name = null;
+        List<Note> notes = new ArrayList<>();
+        
+        for (String line : Files.readAllLines(Paths.get(path))) {
+            if  (!line.isEmpty()) {
+                if (name == null) {
+                    name = line;
+                } else {
+                    String[] pieces = line.split(" ");
+                    int value = Integer.parseInt(pieces[0]);
+                    float duration = Float.parseFloat(pieces[1]);
+                    
+                    notes.add(new Note(value, duration));
+                }
+            } else {
+                melodies.add(new Melody(name, notes));
+                
+                name = null;
+                notes.clear();
+            }
+        }
+        
+        return melodies;
+    }
+}
