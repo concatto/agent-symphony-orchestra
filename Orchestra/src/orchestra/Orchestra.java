@@ -15,7 +15,7 @@ public class Orchestra {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        jade.Boot.main("-gui -agents heifetz:orchestra.MusicianAgent".split(" "));
     }
     
 }
