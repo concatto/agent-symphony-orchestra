@@ -53,7 +53,7 @@ public class PianoAgent extends Agent {
                 }
             }
         });*/
-        addBehaviour(new MelodyPlayerBehaviour(melody, 60));
+        addBehaviour(new MelodyPlayingBehaviour(this, melody, 60));
         
         
     }
