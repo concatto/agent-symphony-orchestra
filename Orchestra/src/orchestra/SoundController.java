@@ -2,6 +2,8 @@ package orchestra;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -78,5 +80,17 @@ public class SoundController {
 
     public void setDefaultChannel(int defaultChannel) {
         this.channel = defaultChannel;
+    }
+    
+    public List<Integer> getAvailableChannels() {
+        List<Integer> indices = new ArrayList<>();
+        
+        for (int i = 0; i < channels.length; i++) {
+            if (i != 9 && channels[i] != null) {
+                indices.add(i);
+            }
+        }
+        
+        return indices;
     }
 }

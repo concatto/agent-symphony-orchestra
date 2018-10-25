@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class MusicianAgent extends Agent {
     private BoundedQueue<Long> beatQueue;
     private float bpm = Float.NaN;
-    private boolean ready = false;
     private MelodyPlayingBehaviour melodyBehaviour;
     
     @Override
@@ -41,7 +40,7 @@ public class MusicianAgent extends Agent {
         
         beatQueue = new BoundedQueue<>(4);
         
-        InstrumentSystem.controller.changeInstrument(Instruments.VIOLIN.ordinal());
+        InstrumentSystem.controller.changeInstrument(InstrumentDescriptor.VIOLIN.ordinal());
         
         addBehaviour(new TickerBehaviour(this, 1000) {
             int index = 1;
@@ -64,7 +63,7 @@ public class MusicianAgent extends Agent {
         InstrumentSystem.controller.off(tone);
     }
     
-    public void beat(int index) {
+    public void beat(int index) {        
         System.out.println(index);
         beatQueue.insert(System.currentTimeMillis());
         

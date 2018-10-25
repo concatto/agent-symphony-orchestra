@@ -1,6 +1,6 @@
 package orchestra;
 
-public enum Instruments {
+public enum InstrumentDescriptor {
 	STEREO_GRAND_PIANO("﻿Piano estéreo"),
 	BRIGHT_GRAND_PIANO("Piano claro"),
 	ELECTRIC_GRAND_PIANO("Piano elétrico"),
@@ -131,7 +131,7 @@ public enum Instruments {
 	GUN_SHOT("Tiro");
 	
 	private String name;
-	Instruments(String name) {
+	InstrumentDescriptor(String name) {
 		this.name = name;
 	}
 	
