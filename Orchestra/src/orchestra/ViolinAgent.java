@@ -5,20 +5,25 @@
  */
 package orchestra;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
 import java.util.Arrays;
 
 /**
  *
  * @author concatto
  */
-public class MusicianAgent extends Agent {
+public class ViolinAgent extends Agent {
     private float bpm = Float.NaN;
+    
+    
     
     @Override
     protected void setup() {
-        Melody melody = new Melody("teste", Arrays.asList(
+        Melody melody = new Melody("MetalBlockPictureRock", Arrays.asList(
                 new Note(100, 1),
                 new Note(255, 1),
                 new Note(120, 2),
@@ -26,6 +31,17 @@ public class MusicianAgent extends Agent {
                 new Note(30, 0.75)
         ));
         
+        /*addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                
+                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                msg.addReceiver(new AID("halePiano", AID.ISLOCALNAME));
+                msg.setContent("Ola");
+                send(msg);
+                
+            }
+        });*/
         addBehaviour(new MelodyPlayerBehaviour(melody, 60));
     }
     
