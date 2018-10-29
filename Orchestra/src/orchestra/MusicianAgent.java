@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 public class MusicianAgent extends Agent {
     private BoundedQueue<Long> beatQueue;
     private float bpm = Float.NaN;
-    private MelodyPlayingBehaviour melodyBehaviour;
+    private MelodyPlayingBehaviour melodyBehaviour = null;
+    private MusicalInstrument instrument;
     
     @Override
     protected void setup() {        
@@ -39,8 +40,7 @@ public class MusicianAgent extends Agent {
         });*/
         
         beatQueue = new BoundedQueue<>(4);
-        
-        InstrumentSystem.controller.changeInstrument(InstrumentDescriptor.VIOLIN.ordinal());
+        instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
         
         addBehaviour(new TickerBehaviour(this, 1000) {
             int index = 1;
@@ -56,11 +56,15 @@ public class MusicianAgent extends Agent {
     }
     
     public void play(int tone) {
-        InstrumentSystem.controller.on(tone);
+        if (tone != 0) { // Rest
+            instrument.play(tone, false);
+        }
     }
     
     public void stop(int tone) {
-        InstrumentSystem.controller.off(tone);
+        if (tone != 0) { // Rest
+            instrument.stop(tone, false);
+        }
     }
     
     public void beat(int index) {        
@@ -69,7 +73,7 @@ public class MusicianAgent extends Agent {
         
         computeBPM();
         
-        if (index == 1 && beatQueue.isFull()) {
+        if (index == 1 && beatQueue.isFull() && melodyBehaviour == null) {
             beginPlaying();
         }
     }
@@ -79,7 +83,6 @@ public class MusicianAgent extends Agent {
             long deltaSum = 0;
             List<Long> list = beatQueue.asList();
             list.sort((a, b) -> (int) (a - b));
-            System.out.println(list.stream().map(String::valueOf).collect(Collectors.joining(",")));
             
             for (int i = 1; i < list.size(); i++) {
                 long previous = list.get(i - 1);
@@ -99,12 +102,17 @@ public class MusicianAgent extends Agent {
 
     private void beginPlaying() {
         Melody melody = new Melody("teste", Arrays.asList(
-                new Note(90, 0.5),
-                new Note(100, 0.5),
-                new Note(95, 1),
-                new Note(80, 1),
-                new Note(70, 0.25),
-                new Note(48, 0.75)
+                new Note(1, 0.25),
+                new Note(2, 0.5),
+                new Note(3, 0.25),
+                new Note(4, 0.5),
+                new Note(5, 0.25),
+                new Note(6, 0.5),
+                new Note(7, 0.25),
+                new Note(8, 0.5),
+                new Note(9, 0.25),
+                new Note(10, 0.5),
+                new Note(0, 0.25)
         ));
         
         melodyBehaviour = new MelodyPlayingBehaviour(this, melody, bpm);

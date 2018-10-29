@@ -11,11 +11,17 @@ package orchestra;
  */
 public class Note {
     private int tone;
+    private boolean sharp;
     private double duration;
 
-    public Note(int tone, double duration) {
+    public Note(int tone, boolean sharp, double duration) {
         this.tone = tone;
+        this.sharp = sharp;
         this.duration = duration;
+    }
+    
+    public Note(int tone, double duration) {
+        this(tone, false, duration);
     }
 
     public double getDuration() {
@@ -25,4 +31,10 @@ public class Note {
     public int getTone() {
         return tone;
     }
+
+    public boolean isSharp() {
+        return sharp;
+    }
+    
+    
 }
