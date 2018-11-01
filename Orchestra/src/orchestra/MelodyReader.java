@@ -23,7 +23,7 @@ public class MelodyReader {
         List<Note> notes = new ArrayList<>();
         
         for (String line : Files.readAllLines(Paths.get(path))) {
-            if  (!line.isEmpty()) {
+            if (!line.isEmpty()) { 
                 if (name == null) {
                     name = line;
                 } else {
@@ -35,7 +35,6 @@ public class MelodyReader {
                 }
             } else {
                 melodies.add(new Melody(name, notes));
-                
                 name = null;
                 notes.clear();
             }

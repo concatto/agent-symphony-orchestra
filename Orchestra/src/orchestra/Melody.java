@@ -18,7 +18,7 @@ public class Melody {
 
     public Melody(String name, List<Note> notes) {
         this.name = name;
-        this.notes = notes;
+        this.notes = new ArrayList<>(notes);
     }
 
     public String getName() {
@@ -28,4 +28,15 @@ public class Melody {
     public List<Note> getNotes() {
         return notes;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Name: ").append(name).append("\n");
+        for (Note note : notes) {
+            builder.append(note).append("\n");
+        }
+        
+        return builder.toString();
+    }
+   
 }

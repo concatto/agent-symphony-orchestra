@@ -12,8 +12,12 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.core.behaviours.TickerBehaviour;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +29,7 @@ public class MusicianAgent extends Agent {
     private float bpm = Float.NaN;
     private MelodyPlayingBehaviour melodyBehaviour = null;
     private MusicalInstrument instrument;
+    private int degreeShift = 0;
     
     @Override
     protected void setup() {        
@@ -43,42 +48,42 @@ public class MusicianAgent extends Agent {
         beatQueue = new BoundedQueue<>(4);
         instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
         
-        addBehaviour(new CyclicBehaviour() {
-			int index = 1;
-			
-			@Override
-			public void action() {
-				beat(index++);
-				System.out.println("RECEBI A MENSAGEM PONTO COM PONTO BR");
-			    if (index > 4) {
-			       index = 1;
-			    }
-			}
-		});
+//        addBehaviour(new CyclicBehaviour() {
+//			int index = 1;
+//			
+//			@Override
+//			public void action() {
+//				beat(index++);
+//				System.out.println("RECEBI A MENSAGEM PONTO COM PONTO BR");
+//			    if (index > 4) {
+//			       index = 1;
+//			    }
+//			}
+//		});
         
 //		ALTERAR PARA RECEBER O TICKER BEHAVIOR DO REGENTAGENT
-//        addBehaviour(new TickerBehaviour(this, 1000) {
-//            int index = 1;
-//            @Override
-//            protected void onTick() {
-//                beat(index++);
-//                
-//                if (index > 4) {
-//                    index = 1;
-//                }
-//            }
-//        });
+        addBehaviour(new TickerBehaviour(this, 1000) {
+            int index = 1;
+            @Override
+            protected void onTick() {
+                beat(index++);
+                
+                if (index > 4) {
+                    index = 1;
+                }
+            }
+        });
     }
     
     public void play(int tone) {
         if (tone != 0) { // Rest
-            instrument.play(tone, false);
+            instrument.play(tone + degreeShift, false);
         }
     }
     
     public void stop(int tone) {
         if (tone != 0) { // Rest
-            instrument.stop(tone, false);
+            instrument.stop(tone + degreeShift, false);
         }
     }
     
@@ -116,21 +121,14 @@ public class MusicianAgent extends Agent {
     }
 
     private void beginPlaying() {
-        Melody melody = new Melody("teste", Arrays.asList(
-                new Note(1, 0.25),
-                new Note(2, 0.5),
-                new Note(3, 0.25),
-                new Note(4, 0.5),
-                new Note(5, 0.25),
-                new Note(6, 0.5),
-                new Note(7, 0.25),
-                new Note(8, 0.5),
-                new Note(9, 0.25),
-                new Note(10, 0.5),
-                new Note(0, 0.25)
-        ));
-        
-        melodyBehaviour = new MelodyPlayingBehaviour(this, melody, bpm);
-        addBehaviour(melodyBehaviour);
+        Object[] args = getArguments();
+        try {
+            String file = (args != null && args.length > 0) ? args[0].toString() : "melodies.txt";
+            List<Melody> melodies = MelodyReader.read(file);
+            melodyBehaviour = new MelodyPlayingBehaviour(this, melodies.get(0), bpm);
+            addBehaviour(melodyBehaviour);
+        } catch (IOException ex) {
+            Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

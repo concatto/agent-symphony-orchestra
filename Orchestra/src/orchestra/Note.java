@@ -35,6 +35,11 @@ public class Note {
     public boolean isSharp() {
         return sharp;
     }
+
+    @Override
+    public String toString() {
+        return (sharp ? "#" : "") + tone + "; " + duration + " beats";
+    }
     
     
 }
