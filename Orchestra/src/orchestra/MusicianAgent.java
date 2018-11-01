@@ -8,6 +8,7 @@ package orchestra;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.core.behaviours.TickerBehaviour;
@@ -42,17 +43,31 @@ public class MusicianAgent extends Agent {
         beatQueue = new BoundedQueue<>(4);
         instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
         
-        addBehaviour(new TickerBehaviour(this, 1000) {
-            int index = 1;
-            @Override
-            protected void onTick() {
-                beat(index++);
-                
-                if (index > 4) {
-                    index = 1;
-                }
-            }
-        });
+        addBehaviour(new CyclicBehaviour() {
+			int index = 1;
+			
+			@Override
+			public void action() {
+				beat(index++);
+				System.out.println("RECEBI A MENSAGEM PONTO COM PONTO BR");
+			    if (index > 4) {
+			       index = 1;
+			    }
+			}
+		});
+        
+//		ALTERAR PARA RECEBER O TICKER BEHAVIOR DO REGENTAGENT
+//        addBehaviour(new TickerBehaviour(this, 1000) {
+//            int index = 1;
+//            @Override
+//            protected void onTick() {
+//                beat(index++);
+//                
+//                if (index > 4) {
+//                    index = 1;
+//                }
+//            }
+//        });
     }
     
     public void play(int tone) {

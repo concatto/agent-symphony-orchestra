@@ -16,6 +16,7 @@ public class Orchestra {
      */
     public static void main(String[] args) {
         jade.Boot.main("-gui -agents heifetz:orchestra.MusicianAgent".split(" "));
+//        jade.Boot.main("-gui -host 10.42.16.86 -container -container-name eu1 -agents reifetz:orchestra.regentAgent".split(" "));
         //jade.Boot.main("-gui -agents fernandoViolin:orchestra.ViolinAgent".split(" "));
         //jade.Boot.main("-gui -agents halePiano:orchestra.PianoAgent".split(" "));
         //jade.Boot.main("-gui jaoPercussion:orchestra.ViolinAgent".split(" "));
