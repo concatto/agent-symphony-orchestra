@@ -27,7 +27,7 @@ public class PianoAgent extends Agent {
      private StandardMessage objectMessage;
      
     public PianoAgent() {
-        this.friends.add("fernandoViolin");
+        this.friends.add("fernandoViolin"); //adicionar nome do agente
     }
      
     @Override
