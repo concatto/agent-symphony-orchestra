@@ -53,7 +53,7 @@ public class MusicianAgent extends Agent {
 			public void action() {
 				ACLMessage msg2 = receive();
 				if(msg2 != null) {
-					System.out.println("RECEBI A MENSAGEM: " + msg2.getContent());				
+					System.out.println(myAgent.getLocalName() + ": " + msg2.getContent());				
 					block();
 				}
 					

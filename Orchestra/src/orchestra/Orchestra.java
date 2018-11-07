@@ -32,8 +32,7 @@ public class Orchestra {
     	
     	
     	String agents = "" +
-                //"heifetz:orchestra.MusicianAgent;" +
-                //"heifetz2:orchestra.MusicianAgent;" +orchestra
+                "spalla:orchestra.ConcertMaster;" +
                 "heifetz:orchestra.MusicianAgent;" +
                 "direttore:orchestra.Conductor";
                 //"heifetz3:orchestra.MusicianAgent(melodies2.txt);" +

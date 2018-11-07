@@ -8,38 +8,33 @@ import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.introspection.AddedBehaviour;
 import jade.gui.AgentTree.SuperContainer;
+import jade.lang.acl.ACLMessage;
 
-public class ConcertMaster extends MusicianAgent{
-    private BoundedQueue<Long> beatQueue;
-    private float bpm = Float.NaN;
-    private MelodyPlayingBehaviour melodyBehaviour = null;
-    private MusicalInstrument instrument;
+public class ConcertMaster extends Agent{
+
    
 	public ConcertMaster(BoundedQueue<Long> beatQueue, float bpm, MelodyPlayingBehaviour melodyBehavior, MusicalInstrument instrument) {
-		this.beatQueue = beatQueue;
-		this.bpm = bpm;
-		this.melodyBehaviour = melodyBehavior;
-		this.instrument = instrument;
+
 	}
 	
 	@Override
 	protected void setup() {
-		super.setup();
-	}
-	
-	@Override
-	public void play(int tone) {
-		super.play(tone);
-	}
-	
-	@Override
-	public void stop(int tone) {
-		super.stop(tone);
-	}
-	
-	@Override
-	public void beat(int index) {
-		super.beat(index);
+
+        addBehaviour(new CyclicBehaviour(this) {
+			@Override
+			public void action() {
+
+				System.out.println("ENTROU");
+				
+//				ACLMessage msg2 = receive();
+//				if(msg2 != null) {
+//					System.out.println("VAMOS TOCAR A MENSAGEM: ");				
+//					block();
+//				}
+					
+			}
+		});	
+		
 	}
 	
 	

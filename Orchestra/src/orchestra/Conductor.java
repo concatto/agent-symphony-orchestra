@@ -18,11 +18,11 @@ public class Conductor extends Agent{
             @Override
             protected void onTick() {
             	ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-				//msg.addReceiver(new AID("concertMaster", AID.ISLOCALNAME));
+				msg.addReceiver(new AID("spalla", AID.ISLOCALNAME));
 				msg.addReceiver(new AID("heifetz", AID.ISLOCALNAME));
 				msg.setContent("TOCA");
 				send(msg);
-				System.out.println("ENVIEI A MENSAGEM POURRA");               
+				System.out.println(msg.getSender().getLocalName() + ": " + msg.getContent());               
             }
         });
 	}
