@@ -1,1 +1,1 @@
-http://u702466.univali.br:7778/acc
+http://arch-j.localdomain:7778/acc

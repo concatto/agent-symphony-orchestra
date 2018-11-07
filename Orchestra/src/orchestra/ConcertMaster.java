@@ -22,8 +22,6 @@ public class ConcertMaster extends MusicianAgent{
 		this.instrument = instrument;
 	}
 	
-	
-	
 	@Override
 	protected void setup() {
 		super.setup();
@@ -38,5 +36,11 @@ public class ConcertMaster extends MusicianAgent{
 	public void stop(int tone) {
 		super.stop(tone);
 	}
+	
+	@Override
+	public void beat(int index) {
+		super.beat(index);
+	}
+	
 	
 }

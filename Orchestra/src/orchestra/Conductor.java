@@ -1,28 +1,30 @@
 package orchestra;
 
+import jade.core.AID;
+import jade.core.Agent;
+import jade.core.behaviours.TickerBehaviour;
+import jade.lang.acl.ACLMessage;
 
-public class Conductor extends MusicianAgent{
+public class Conductor extends Agent{
 
 	public Conductor() {
+		
 	}
 	
-	@Override
-	protected void setup() {
-		super.setup();
+	
+	protected void setup() {	
+        
+		addBehaviour(new TickerBehaviour(this, 1000) {
+            @Override
+            protected void onTick() {
+            	ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+				//msg.addReceiver(new AID("concertMaster", AID.ISLOCALNAME));
+				msg.addReceiver(new AID("heifetz", AID.ISLOCALNAME));
+				msg.setContent("TOCA");
+				send(msg);
+				System.out.println("ENVIEI A MENSAGEM POURRA");               
+            }
+        });
 	}
 	
-	@Override
-	public void play(int tone) {
-		super.play(tone);
-	}
-	
-	@Override
-	public void stop(int tone) {
-		super.stop(tone);
-	}
-	
-	@Override
-	public void beat(int index) {
-		super.beat(index);
-	}
 }

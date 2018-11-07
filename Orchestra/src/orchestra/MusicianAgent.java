@@ -48,31 +48,31 @@ public class MusicianAgent extends Agent {
         beatQueue = new BoundedQueue<>(4);
         instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
         
-//        addBehaviour(new CyclicBehaviour() {
-//			int index = 1;
-//			
-//			@Override
-//			public void action() {
-//				beat(index++);
-//				System.out.println("RECEBI A MENSAGEM PONTO COM PONTO BR");
-//			    if (index > 4) {
-//			       index = 1;
-//			    }
-//			}
-//		});
+        addBehaviour(new CyclicBehaviour(this) {
+			@Override
+			public void action() {
+				ACLMessage msg2 = receive();
+				if(msg2 != null) {
+					System.out.println("RECEBI A MENSAGEM: " + msg2.getContent());				
+					block();
+				}
+					
+			}
+		});
+
         
 //		ALTERAR PARA RECEBER O TICKER BEHAVIOR DO REGENTAGENT
-        addBehaviour(new TickerBehaviour(this, 1000) {
-            int index = 1;
-            @Override
-            protected void onTick() {
-                beat(index++);
-                
-                if (index > 4) {
-                    index = 1;
-                }
-            }
-        });
+//        addBehaviour(new TickerBehaviour(this, 1000) {
+//            int index = 1;
+//            @Override
+//            protected void onTick() {
+//                beat(index++);
+//                
+//                if (index > 4) {
+//                    index = 1;
+//                }
+//            }
+//        });
     }
     
     public void play(int tone) {

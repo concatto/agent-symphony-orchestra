@@ -10,6 +10,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jade.core.Runtime;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
+
 
 /**
  *
@@ -21,12 +27,18 @@ public class Orchestra {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String agents = "" +
+
+      	
+    	
+    	
+    	String agents = "" +
+                //"heifetz:orchestra.MusicianAgent;" +
+                //"heifetz2:orchestra.MusicianAgent;" +orchestra
                 "heifetz:orchestra.MusicianAgent;" +
-                "heifetz2:orchestra.MusicianAgent;" +
+                "direttore:orchestra.Conductor";
                 //"heifetz3:orchestra.MusicianAgent(melodies2.txt);" +
-                "heifetz4:orchestra.MusicianAgent(melodies2.txt);" +
-                "heifetz6:orchestra.MusicianAgent(melodies3.txt)";
+                //"heifetz4:orchestra.MusicianAgent(melodies2.txt);" +
+                //"heifetz6:orchestra.MusicianAgent(melodies3.txt)";
         
         String[] jadeArgs = {
             "-gui",
@@ -35,10 +47,10 @@ public class Orchestra {
         };
         
         jade.Boot.main(jadeArgs);
-        //jade.Boot.main("-gui -agents fernandoViolin:orchestra.ViolinAgent".split(" "));
-        //jade.Boot.main("-gui -agents halePiano:orchestra.PianoAgent".split(" "));
-        //jade.Boot.main("-gui jaoPercussion:orchestra.ViolinAgent".split(" "));
-        
+        //jade.Boot.main("-gui -agents heifetz:orchestra.MusicianAgent".split(" "));
+        //jade.Boot.main("-gui -agents direttore:orchestra.Conductor".split(" "));
+        //jade.Boot.main("-gui -agents spalla:orchestra.MusicianAgent".split(" "));
+//        
     }
     
 }
