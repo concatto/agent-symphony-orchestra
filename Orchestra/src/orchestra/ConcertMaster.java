@@ -13,24 +13,21 @@ import jade.lang.acl.ACLMessage;
 public class ConcertMaster extends Agent{
 
    
-	public ConcertMaster(BoundedQueue<Long> beatQueue, float bpm, MelodyPlayingBehaviour melodyBehavior, MusicalInstrument instrument) {
+	public ConcertMaster() {
 
 	}
 	
-	@Override
+	
 	protected void setup() {
 
         addBehaviour(new CyclicBehaviour(this) {
 			@Override
-			public void action() {
-
-				System.out.println("ENTROU");
-				
-//				ACLMessage msg2 = receive();
-//				if(msg2 != null) {
-//					System.out.println("VAMOS TOCAR A MENSAGEM: ");				
-//					block();
-//				}
+			public void action() {				
+				ACLMessage msg2 = receive();
+				if(msg2 != null) {
+					System.out.println(myAgent.getLocalName() + ": " + msg2.getContent());				
+					block();
+				}
 					
 			}
 		});	

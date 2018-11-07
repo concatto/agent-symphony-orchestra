@@ -33,17 +33,6 @@ public class MusicianAgent extends Agent {
     
     @Override
     protected void setup() {        
-        /*addBehaviour(new OneShotBehaviour() {
-            @Override
-            public void action() {
-                
-                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                msg.addReceiver(new AID("halePiano", AID.ISLOCALNAME));
-                msg.setContent("Ola");
-                send(msg);
-                
-            }
-        });*/
         
         beatQueue = new BoundedQueue<>(4);
         instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
@@ -60,19 +49,7 @@ public class MusicianAgent extends Agent {
 			}
 		});
 
-        
-//		ALTERAR PARA RECEBER O TICKER BEHAVIOR DO REGENTAGENT
-//        addBehaviour(new TickerBehaviour(this, 1000) {
-//            int index = 1;
-//            @Override
-//            protected void onTick() {
-//                beat(index++);
-//                
-//                if (index > 4) {
-//                    index = 1;
-//                }
-//            }
-//        });
+     
     }
     
     public void play(int tone) {
