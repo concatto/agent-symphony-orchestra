@@ -23,16 +23,16 @@ public class DiatonicScale {
     }
     
     public int semitonesFromTonic(int degree, boolean sharp) {
-        int index = degree - 1;
+        int index = degree % 7;
+        int octaveDifference = degree / 7;
         
         if (degree < 0) {
-            index = degree + 7;
+            index = index + 7;
+            octaveDifference -= 1;
         }
         
-        int octaveDifference = index / 7; // TODO fix for negative degrees
-        int semitones = type.getSemitonesFromTonic()[index % 7] + (sharp ? 1 : 0);
-        semitones = degree >= 0 ? semitones : semitones - 12;
+        int semitones = type.getSemitonesFromTonic()[index] + (sharp ? 1 : 0);
         
-        return semitones + (12 * octaveDifference); // TODO fix for negative degrees
+        return semitones + (12 * octaveDifference);
     }
 }

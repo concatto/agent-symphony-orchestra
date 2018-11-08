@@ -52,16 +52,12 @@ public class MusicianAgent extends Agent {
      
     }
     
-    public void play(int tone) {
-        if (tone != 0) { // Rest
-            instrument.play(tone + degreeShift, false);
-        }
+    public void play(int degree) {
+        instrument.play(degree + degreeShift, false);
     }
     
-    public void stop(int tone) {
-        if (tone != 0) { // Rest
-            instrument.stop(tone + degreeShift, false);
-        }
+    public void stop(int degree) {
+        instrument.stop(degree + degreeShift, false);
     }
     
     public void beat(int index) {        

@@ -48,7 +48,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         }
         
         if (noteIndex > 0) {
-            agent.stop(melody.getNotes().get(noteIndex - 1).getTone());
+            agent.stop(melody.getNotes().get(noteIndex - 1).getPitch());
             //System.out.println("Stopping " + melody.getNotes().get(noteIndex - 1).getTone());
 
             if (noteIndex >= melody.getNotes().size()) {
@@ -58,8 +58,11 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         
         Note note = melody.getNotes().get(noteIndex);
         
-        agent.play(note.getTone());
-        //System.out.println("Playing " + note.getTone());
+        if (!note.isRest()) {
+            agent.play(note.getPitch());
+            //System.out.println("Playing " + note.getTone());
+        }
+        
         
         totalSleep = Math.round((60.0 / bpm) * 1000 * note.getDuration());
         totalSleep += remainingSleep; // The agent overslept!

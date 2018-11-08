@@ -49,7 +49,6 @@ public class Orchestra {
         //jade.Boot.main("-gui -agents heifetz:orchestra.MusicianAgent".split(" "));
         //jade.Boot.main("-gui -agents direttore:orchestra.Conductor".split(" "));
         //jade.Boot.main("-gui -agents spalla:orchestra.MusicianAgent".split(" "));
-//        
     }
     
 }

@@ -28,10 +28,10 @@ public class MelodyReader {
                     name = line;
                 } else {
                     String[] pieces = line.split(" ");
-                    int value = Integer.parseInt(pieces[0]);
+                    int pitch = pieces[0].equals("R") ? 0 : Integer.parseInt(pieces[0]);
                     float duration = Float.parseFloat(pieces[1]);
                     
-                    notes.add(new Note(value, duration));
+                    notes.add(new Note(pitch, duration));
                 }
             } else {
                 melodies.add(new Melody(name, notes));

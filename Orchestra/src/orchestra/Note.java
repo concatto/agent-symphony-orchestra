@@ -10,12 +10,12 @@ package orchestra;
  * @author 5928036
  */
 public class Note {
-    private int tone;
+    private int pitch;
     private boolean sharp;
     private double duration;
 
     public Note(int tone, boolean sharp, double duration) {
-        this.tone = tone;
+        this.pitch = tone;
         this.sharp = sharp;
         this.duration = duration;
     }
@@ -28,8 +28,8 @@ public class Note {
         return duration;
     }
 
-    public int getTone() {
-        return tone;
+    public int getPitch() {
+        return pitch;
     }
 
     public boolean isSharp() {
@@ -38,7 +38,11 @@ public class Note {
 
     @Override
     public String toString() {
-        return (sharp ? "#" : "") + tone + "; " + duration + " beats";
+        return (sharp ? "#" : "") + pitch + "; " + duration + " beats";
+    }
+
+    public boolean isRest() {
+        return pitch == 0;
     }
     
     
