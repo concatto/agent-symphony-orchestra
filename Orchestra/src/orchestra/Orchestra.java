@@ -29,7 +29,7 @@ public class Orchestra {
     public static void main(String[] args) {
 
       	
-    	
+    	Map map = new Map();
     	
     	String agents = "" +
                 "spalla:orchestra.ConcertMaster;" +
