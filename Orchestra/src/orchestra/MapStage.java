@@ -5,15 +5,24 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class MapStage extends JPanel {
-    Image image;
-
+    private Image image;
+    private List<MusicianPanel> agentsPanel = new LinkedList<>();
+    
+    
     public MapStage() {
+        
+        agentsPanel.add(new MusicianPanel(100, 370));
+        agentsPanel.add(new MusicianPanel(300, 370));
+        agentsPanel.add(new MusicianPanel(500, 370));
+        
         try {
             this.image = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("palco.jpg"), "palco.jpg"));
         } catch (MalformedURLException ex) {
@@ -23,8 +32,14 @@ public class MapStage extends JPanel {
         }
     }
 
-    public void paintComponent( Graphics g ) {
+    public void paint( Graphics g ) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, 800, 500, this);
+        
+        for(MusicianPanel m : agentsPanel) {
+            g.drawImage(m.currentImage, m.x, m.y, 100, 100, this);
+        }
+        //g.drawImage(currentImage, x, y, 100, 100, this);
+        //g.drawImage(currentImage, x*2, y*2, 100, 100, this);
     }
 }

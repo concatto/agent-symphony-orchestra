@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import jade.wrapper.StaleProxyException;
 
 
 /**
@@ -31,7 +33,8 @@ public class Orchestra {
       	
     	Map map = new Map();
     	
-    	String agents = "" +
+        
+    	/*String agents = "" +
                 "spalla:orchestra.ConcertMaster;" +
                 "heifetz:orchestra.MusicianAgent;" +
                 "direttore:orchestra.Conductor";
@@ -48,7 +51,7 @@ public class Orchestra {
         jade.Boot.main(jadeArgs);
         //jade.Boot.main("-gui -agents heifetz:orchestra.MusicianAgent".split(" "));
         //jade.Boot.main("-gui -agents direttore:orchestra.Conductor".split(" "));
-        //jade.Boot.main("-gui -agents spalla:orchestra.MusicianAgent".split(" "));
+        //jade.Boot.main("-gui -agents spalla:orchestra.MusicianAgent".split(" "));*/
     }
     
 }
