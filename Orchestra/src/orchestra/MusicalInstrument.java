@@ -36,16 +36,16 @@ public class MusicalInstrument {
         return assignedChannel;
     }
     
-    private int calculateMidiCode(int degree, boolean sharp) {
+    private int calculateMidiCode(int degree, Accident accident) {
         int tonic = MidiTranslator.translate(tuning.getTonic(), baseOctave);
-        return tonic + tuning.semitonesFromTonic(degree, sharp);
+        return tonic + tuning.semitonesFromTonic(degree, accident);
     }
     
-    public void play(int degree, boolean sharp) {
-        controller.on(calculateMidiCode(degree, sharp), assignedChannel);
+    public void play(int degree, Accident accident) {
+        controller.on(calculateMidiCode(degree, accident), assignedChannel);
     }
     
-    public void stop(int degree, boolean sharp) {
-        controller.off(calculateMidiCode(degree, sharp), assignedChannel);
+    public void stop(int degree, Accident accident) {
+        controller.off(calculateMidiCode(degree, accident), assignedChannel);
     }
 }

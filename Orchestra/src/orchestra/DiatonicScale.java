@@ -22,16 +22,31 @@ public class DiatonicScale {
         return tonic;
     }
     
-    public int semitonesFromTonic(int degree, boolean sharp) {
+    private static int getAccidentValue(Accident accident) {
+        if (accident == null) {
+            return 0;
+        } else switch (accident) {
+            case SHARP:
+                return 1;
+            case FLAT:
+                return -1;
+            default:
+                return 0;
+        }
+    }
+    
+    public int semitonesFromTonic(int degree, Accident accident) {
         int index = degree % 7;
         int octaveDifference = degree / 7;
         
         if (degree < 0) {
-            index = index + 7;
-            octaveDifference -= 1;
+            index = (index + 7) % 7;
+            octaveDifference = ((degree + 1) / 7) - 1;
         }
         
-        int semitones = type.getSemitonesFromTonic()[index] + (sharp ? 1 : 0);
+        int x = type.getSemitonesFromTonic()[index];
+        System.out.println("From tonic = " + x);
+        int semitones = x + getAccidentValue(accident);
         
         return semitones + (12 * octaveDifference);
     }

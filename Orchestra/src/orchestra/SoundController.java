@@ -59,6 +59,7 @@ public class SoundController {
     }
 
     public void on(int note, int channel) {
+        System.out.println("Pitch = " + note);
         channels[channel].noteOn(note, 127);
     }
 

@@ -7,6 +7,8 @@ package orchestra;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import orchestra.MusicianAgent;
@@ -16,6 +18,7 @@ import orchestra.MusicianAgent;
  * @author concatto
  */
 public class MelodyPlayingBehaviour extends CyclicBehaviour {
+    private final List<Melody> melodies;
     private Melody melody;
     private float bpm;
     private int noteIndex = 0;
@@ -23,10 +26,12 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     private long totalSleep = 0;
     private long startTime;
     
-    public MelodyPlayingBehaviour(Agent myAgent, Melody melody, float bpm) {
+    public MelodyPlayingBehaviour(Agent myAgent, List<Melody> melodies, float bpm) {
         super(myAgent);
-        this.melody = melody;
+        this.melodies = melodies;
         this.bpm = bpm;
+        
+        finishMelody();
     }
 
     public void setBpm(float bpm) {
@@ -48,18 +53,18 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         }
         
         if (noteIndex > 0) {
-            agent.stop(melody.getNotes().get(noteIndex - 1).getPitch());
+            agent.stop(melody.getNotes().get(noteIndex - 1));
             //System.out.println("Stopping " + melody.getNotes().get(noteIndex - 1).getTone());
 
             if (noteIndex >= melody.getNotes().size()) {
-                noteIndex = 0;
+                finishMelody();
             }
         }
         
         Note note = melody.getNotes().get(noteIndex);
         
         if (!note.isRest()) {
-            agent.play(note.getPitch());
+            agent.play(note);
             //System.out.println("Playing " + note.getTone());
         }
         
@@ -72,5 +77,12 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         
         noteIndex++;
         startTime = System.currentTimeMillis();
+    }
+
+    private void finishMelody() {
+        noteIndex = 0;
+        
+        int melodyIndex = new Random().nextInt(melodies.size());
+        melody = melodies.get(melodyIndex);
     }
 }

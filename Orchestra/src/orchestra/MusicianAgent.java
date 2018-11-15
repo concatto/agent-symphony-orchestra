@@ -32,32 +32,37 @@ public class MusicianAgent extends Agent {
     private int degreeShift = 0;
     
     @Override
-    protected void setup() {        
+    protected void setup() {
+        Object[] args = getArguments();
         
         beatQueue = new BoundedQueue<>(4);
-        instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.VIOLIN);
-        
-        addBehaviour(new CyclicBehaviour(this) {
-			@Override
-			public void action() {
-				ACLMessage msg2 = receive();
-				if(msg2 != null) {
-					System.out.println(myAgent.getLocalName() + ": " + msg2.getContent());				
-					block();
-				}
-					
-			}
-		});
+        instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.valueOf(args[1].toString()));
+        instrument.setBaseOctave(Integer.parseInt(args[2].toString()));
 
-     
+        addBehaviour(new CyclicBehaviour(this) {
+            @Override
+            public void action() {
+                ACLMessage msg2 = receive();
+                if (msg2 != null) {
+                    System.out.println(myAgent.getLocalName() + ": " + msg2.getContent());
+                    int beat = Integer.parseInt(msg2.getContent());
+                    
+                    beat(beat);
+                    
+                    block();
+                }
+
+            }
+        });
+
     }
     
-    public void play(int degree) {
-        instrument.play(degree + degreeShift, false);
+    public void play(Note note) {
+        instrument.play(note.getPitch() + degreeShift, note.getAccident());
     }
     
-    public void stop(int degree) {
-        instrument.stop(degree + degreeShift, false);
+    public void stop(Note note) {
+        instrument.stop(note.getPitch() + degreeShift, note.getAccident());
     }
     
     public void beat(int index) {        
@@ -98,7 +103,9 @@ public class MusicianAgent extends Agent {
         try {
             String file = (args != null && args.length > 0) ? args[0].toString() : "melodies.txt";
             List<Melody> melodies = MelodyReader.read(file);
-            melodyBehaviour = new MelodyPlayingBehaviour(this, melodies.get(0), bpm);
+            System.out.println(melodies.size() + " melodies");
+            
+            melodyBehaviour = new MelodyPlayingBehaviour(this, melodies, bpm);
             addBehaviour(melodyBehaviour);
         } catch (IOException ex) {
             Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);

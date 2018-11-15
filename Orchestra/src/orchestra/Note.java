@@ -10,18 +10,19 @@ package orchestra;
  * @author 5928036
  */
 public class Note {
+    public static final int REST = Integer.MAX_VALUE;
     private int pitch;
-    private boolean sharp;
+    private Accident accident;
     private double duration;
 
-    public Note(int tone, boolean sharp, double duration) {
+    public Note(int tone, Accident accident, double duration) {
         this.pitch = tone;
-        this.sharp = sharp;
+        this.accident = accident;
         this.duration = duration;
     }
     
     public Note(int tone, double duration) {
-        this(tone, false, duration);
+        this(tone, null, duration);
     }
 
     public double getDuration() {
@@ -33,16 +34,24 @@ public class Note {
     }
 
     public boolean isSharp() {
-        return sharp;
+        return accident == Accident.SHARP;
+    }
+    
+    public boolean isFlat() {
+        return accident == Accident.FLAT;
     }
 
     @Override
     public String toString() {
-        return (sharp ? "#" : "") + pitch + "; " + duration + " beats";
+        return (isSharp() ? "#" : (isFlat() ? "b" : "")) + pitch + "; " + duration + " beats";
     }
 
     public boolean isRest() {
-        return pitch == 0;
+        return pitch == REST;
+    }
+
+    public Accident getAccident() {
+        return accident;
     }
     
     

@@ -28,10 +28,20 @@ public class MelodyReader {
                     name = line;
                 } else {
                     String[] pieces = line.split(" ");
-                    int pitch = pieces[0].equals("R") ? 0 : Integer.parseInt(pieces[0]);
-                    float duration = Float.parseFloat(pieces[1]);
+                    int pitch = pieces[0].equals("R") ? Note.REST : Integer.parseInt(pieces[0]);
                     
-                    notes.add(new Note(pitch, duration));
+                    boolean hasAccident = pieces.length > 2;
+                    Accident accident = null;
+                    
+                    if (pieces[1].equals("#")) {
+                        accident = Accident.SHARP;
+                    } else if (pieces[1].equals("b")) {
+                        accident = Accident.FLAT;
+                    }
+                    
+                    float duration = Float.parseFloat(pieces[hasAccident ? 2 : 1]);
+                    
+                    notes.add(new Note(pitch, accident, duration));
                 }
             } else {
                 melodies.add(new Melody(name, notes));

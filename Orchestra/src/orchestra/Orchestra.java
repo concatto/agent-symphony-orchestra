@@ -29,14 +29,13 @@ public class Orchestra {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-      	
     	Map map = new Map();
     	
-        
-    	/*String agents = "" +
-                "spalla:orchestra.ConcertMaster;" +
-                "heifetz:orchestra.MusicianAgent;" +
+    	String agents = "" +
+                //"spalla:orchestra.ConcertMaster;" +
+                "heifetz:orchestra.MusicianAgent(bass.txt,CELLO,4);" +
+                "heifetz2:orchestra.MusicianAgent(vivaldi.txt,VIOLIN,4);" +
+                "heifetz3:orchestra.MusicianAgent(vivaldi.txt,CLARINET,5);" +
                 "direttore:orchestra.Conductor";
                 //"heifetz3:orchestra.MusicianAgent(melodies2.txt);" +
                 //"heifetz4:orchestra.MusicianAgent(melodies2.txt);" +
