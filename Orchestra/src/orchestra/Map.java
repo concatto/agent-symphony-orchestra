@@ -56,14 +56,25 @@ public class Map extends JFrame{
         p.setParameter(Profile.MAIN_PORT, "1199");      
         AgentContainer ac = rt.createMainContainer(p);
         
-        AgentController agentAbelha;
-        AgentController agentAbelha2;
+        AgentController conductor;
+        AgentController violin;
+        AgentController bass;
+        AgentController clarinet;
+        
+        /* "heifetz:orchestra.MusicianAgent(bass.txt,CELLO,4);" +
+                "heifetz2:orchestra.MusicianAgent(vivaldi.txt,VIOLIN,4);" +
+                "heifetz3:orchestra.MusicianAgent(vivaldi.txt,CLARINET,5);" +
+*/
         try {
-            agentAbelha = ac.createNewAgent("orchestador", "orchestra.Conductor", null);
-            agentAbelha.start();
             
-            agentAbelha2 = ac.createNewAgent("musico", "orchestra.Conductor", null);
-            agentAbelha2.start();
+            conductor = ac.createNewAgent("orchestador", "orchestra.Conductor", null);
+            conductor.start();
+            
+            bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", new Object[]{new String("bass.txt"), new String("CELLO"), new String("4")});
+            bass.start();
+            
+            violin = ac.createNewAgent("heifetz2", "orchestra.MusicianAgent", new Object[]{new String("vivaldi.txt"), new String("VIOLIN"), new String("4")});
+            violin.start();
             
         } catch (StaleProxyException ex) {
             System.out.println("Erro");

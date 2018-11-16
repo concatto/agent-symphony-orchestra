@@ -31,7 +31,7 @@ public class Orchestra {
     public static void main(String[] args) {
     	Map map = new Map();
     	
-    	String agents = "" +
+    	/*String agents = "" +
                 //"spalla:orchestra.ConcertMaster;" +
                 "heifetz:orchestra.MusicianAgent(bass.txt,CELLO,4);" +
                 "heifetz2:orchestra.MusicianAgent(vivaldi.txt,VIOLIN,4);" +
