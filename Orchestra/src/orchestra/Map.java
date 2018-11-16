@@ -48,46 +48,6 @@ public class Map extends JFrame{
     }
     
     public Map() {
-               
-        jade.core.Runtime rt = jade.core.Runtime.instance();     
-        rt.setCloseVM(true);
-        Profile p = new ProfileImpl();   
-        p.setParameter(Profile.MAIN_HOST, "127.0.0.1");       
-        p.setParameter(Profile.MAIN_PORT, "1199");      
-        AgentContainer ac = rt.createMainContainer(p);
-        
-        AgentController conductor;
-        AgentController violin;
-        AgentController bass;
-        AgentController clarinet;
-        
-        /* "heifetz:orchestra.MusicianAgent(bass.txt,CELLO,4);" +
-                "heifetz2:orchestra.MusicianAgent(vivaldi.txt,VIOLIN,4);" +
-                "heifetz3:orchestra.MusicianAgent(vivaldi.txt,CLARINET,5);" +
-*/
-        try {
-            
-            conductor = ac.createNewAgent("orchestador", "orchestra.Conductor", null);
-            conductor.start();
-            
-            bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", new Object[]{new String("bass.txt"), new String("CELLO"), new String("4")});
-            bass.start();
-            
-            violin = ac.createNewAgent("heifetz2", "orchestra.MusicianAgent", new Object[]{new String("vivaldi.txt"), new String("VIOLIN"), new String("4")});
-            violin.start();
-            
-        } catch (StaleProxyException ex) {
-            System.out.println("Erro");
-        }
-        
-        
-        
-        try {
-            AgentController rma = ac.createNewAgent("rma", "jade.tools.rma.rma", null);
-            rma.start();
-        } catch(StaleProxyException e) {
-            System.out.println("Erro ao criar/startar o agente do Jade Tools: " + e.getMessage());
-        }
         
         this.bpmCount = 60;
         bpms = new JLabel(bpmCount.toString());
