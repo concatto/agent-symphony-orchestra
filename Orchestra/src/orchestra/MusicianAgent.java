@@ -12,6 +12,10 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.core.behaviours.TickerBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +38,20 @@ public class MusicianAgent extends Agent {
     @Override
     protected void setup() {
         Object[] args = getArguments();
+        
+        ServiceDescription sd = new ServiceDescription();
+        DFAgentDescription dfd = new DFAgentDescription();
+        
+        sd.setName(getLocalName());
+        sd.setType("musician");
+        dfd.setName(getAID());
+        dfd.addServices(sd);
+        
+        try {
+            DFService.register(this, dfd);
+        } catch (FIPAException ex) {
+            Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         beatQueue = new BoundedQueue<>(4);
         instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.valueOf(args[1].toString()));
@@ -110,5 +128,9 @@ public class MusicianAgent extends Agent {
         } catch (IOException ex) {
             Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void notifyMelodyCompletion() {
+        //degreeShift = new Random().nextInt(3) * 2;
     }
 }

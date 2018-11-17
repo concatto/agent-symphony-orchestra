@@ -49,16 +49,16 @@ public class Orchestra {
         
         try {
             
-            conductor = ac.createNewAgent("orchestador", "orchestra.Conductor", null);
+            conductor = ac.createNewAgent("conductor", "orchestra.Conductor", null);
             conductor.start();
             
-            bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", objBass);
+            bass = ac.createNewAgent("cello", "orchestra.MusicianAgent", objBass);
             bass.start();
             
-            violin = ac.createNewAgent("heifetz2", "orchestra.MusicianAgent", objViolin);
+            violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objViolin);
             violin.start();
             
-            clarinet = ac.createNewAgent("heifetz3", "orchestra.MusicianAgent", objClarinet);
+            clarinet = ac.createNewAgent("wind", "orchestra.MusicianAgent", objClarinet);
             clarinet.start();
             
             agentMap = ac.createNewAgent("agentMap", "orchestra.AgentMapController", null);
