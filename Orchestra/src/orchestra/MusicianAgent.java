@@ -66,13 +66,20 @@ public class MusicianAgent extends Agent {
                     int beat = Integer.parseInt(msg2.getContent());
                     
                     beat(beat);
+                    sendMessageToMap();
                     
                     block();
                 }
 
             }
         });
-
+    }
+    
+    private void sendMessageToMap() {
+        ACLMessage msg3 = new ACLMessage(ACLMessage.INFORM);
+        msg3.addReceiver(new AID("agentMap", AID.ISLOCALNAME));
+        msg3.setContent("");
+        send(msg3);
     }
     
     public void play(Note note) {

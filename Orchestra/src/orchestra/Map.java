@@ -8,6 +8,7 @@ import jade.wrapper.StaleProxyException;
 import orchestra.MapStage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class Map extends JFrame{
     
     private Integer bpmCount;
+    private Integer oldBpmCount;
     
     private final JPanel panelMusicians = new JPanel(new BorderLayout());
     private final JPanel panelButtons = new JPanel(new FlowLayout());
@@ -33,23 +35,39 @@ public class Map extends JFrame{
     
     private final JLabel bpms;
    
-    private MapStage stage = new MapStage();
+    public MapStage stage = new MapStage();
     
     private void initActionListeners() {
         upButton.addActionListener((event) -> {
-            this.bpmCount = bpmCount + 5;
+            this.oldBpmCount = bpmCount;
+            this.bpmCount = bpmCount + 100;
             bpms.setText(bpmCount.toString());
         });
         
         downButton.addActionListener((event) -> {
-            this.bpmCount = bpmCount - 5;
-            bpms.setText(bpmCount.toString());
+            if (this.bpmCount - 100 > 0) {
+                this.oldBpmCount = bpmCount;
+                this.bpmCount = bpmCount - 100;
+                bpms.setText(bpmCount.toString());
+            }
         });
+    }
+    
+    public int getBpmCount() {
+        return bpmCount;
+    }
+    
+    public boolean checkChangeBpm() {
+        if (Objects.equals(this.oldBpmCount, this.bpmCount)) { return false; }
+        
+        this.oldBpmCount = bpmCount;
+        return true;
     }
     
     public Map() {
         
-        this.bpmCount = 60;
+        this.bpmCount = 500;
+        this.oldBpmCount = 500;
         bpms = new JLabel(bpmCount.toString());
         
         initActionListeners();
