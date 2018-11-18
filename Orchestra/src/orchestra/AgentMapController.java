@@ -3,9 +3,14 @@ package orchestra;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AgentMapController extends Agent{
 
@@ -15,10 +20,40 @@ public class AgentMapController extends Agent{
     
     @Override
     protected void setup() {
+        
+        ServiceDescription sd = new ServiceDescription();
+        DFAgentDescription dfd = new DFAgentDescription();
+        
+        sd.setName(getLocalName());
+        sd.setType("musician");
+        dfd.setName(getAID());
+        dfd.addServices(sd);
+        
+        try {
+            DFService.register(this, dfd);
+        } catch (FIPAException ex) {
+            Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
-                
+                ACLMessage msg = receive();
+                if (msg != null) {
+                    if (msg.getSender().getLocalName().equals("conductor")) {
+                        changeMapState(3);
+                    }
+                    else if (msg.getSender().getLocalName().equals("violin")) {
+                        changeMapState(0);
+                    }
+                    else if (msg.getSender().getLocalName().equals("cello")) {
+                        changeMapState(1);
+                    }
+                    else if (msg.getSender().getLocalName().equals("wind")) {
+                        changeMapState(2);
+                    }
+                }
+                block();
             }
         });
         
@@ -36,6 +71,13 @@ public class AgentMapController extends Agent{
         });
     }
     
-    
+    private void changeMapState(int agentIndex) {
+        try {
+            Thread.sleep(140);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AgentMapController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        map.stage.changeImage(agentIndex);
+    }
     
 }

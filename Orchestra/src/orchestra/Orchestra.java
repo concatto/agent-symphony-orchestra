@@ -51,8 +51,13 @@ public class Orchestra {
         
         try {
             
+           
+            
             conductor = ac.createNewAgent("conductor", "orchestra.Conductor", null);
             conductor.start();
+            
+            agentMap = ac.createNewAgent("agentMap", "orchestra.AgentMapController", null);
+            agentMap.start();
             
             spalla = ac.createNewAgent("spalla", "orchestra.ConcertMaster", null);
             spalla.start();
@@ -67,8 +72,7 @@ public class Orchestra {
             //clarinet = ac.createNewAgent("wind", "orchestra.MusicianAgent", objClarinet);
             //clarinet.start();
             
-            agentMap = ac.createNewAgent("agentMap", "orchestra.AgentMapController", null);
-            agentMap.start();
+            
             
             
         } catch (StaleProxyException ex) {

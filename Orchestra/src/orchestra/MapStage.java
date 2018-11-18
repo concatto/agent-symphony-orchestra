@@ -19,9 +19,10 @@ public class MapStage extends JPanel {
     
     public MapStage() {
         
-        agentsPanel.add(new MusicianPanel(100, 370));
-        agentsPanel.add(new MusicianPanel(300, 370));
-        agentsPanel.add(new MusicianPanel(500, 370));
+        agentsPanel.add(new MusicianPanel(100, 370, "violino.png", "cello.jpg"));
+        agentsPanel.add(new MusicianPanel(300, 370, "cello.jpg", "flauta.png"));
+        agentsPanel.add(new MusicianPanel(500, 370, "flauta.png", "cello.jpg"));
+        agentsPanel.add(new MusicianPanel(320, 280, "flauta.png", "violino.png"));
         
         try {
             this.image = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("palco.jpg"), "palco.jpg"));
@@ -30,6 +31,11 @@ public class MapStage extends JPanel {
         } catch (IOException ex) {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void changeImage(int agenteIndex) {
+        agentsPanel.get(agenteIndex).switchImage();
+        repaint();
     }
 
     public void paint( Graphics g ) {

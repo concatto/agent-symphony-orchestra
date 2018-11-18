@@ -16,18 +16,19 @@ public class MusicianPanel extends JPanel{
     private Image image1;
     private Image image2;
     public Image currentImage;
+    public Image currentNote;
     
     public int x, y;
     
-    public MusicianPanel(int x, int y) {
+    public MusicianPanel(int x, int y, String imageName, String imageName2) {
     
         this.x = x;
         this.y = y;
         
         try {
-            this.image1 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("violin1.png"), "violin1.png"));
-            this.image2 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("violin2.png"), "violin2.png"));
-            currentImage = image2;
+            this.image1 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName), imageName));
+            this.image2 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName2), imageName2));
+            currentImage = image1;
         } catch (MalformedURLException ex) {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

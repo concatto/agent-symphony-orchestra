@@ -35,7 +35,7 @@ public class Map extends JFrame{
     
     private final JLabel bpms;
    
-    private MapStage stage = new MapStage();
+    public MapStage stage = new MapStage();
     
     private void initActionListeners() {
         upButton.addActionListener((event) -> {
