@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Map.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicalInstrument.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MapStage.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/PianoAgent.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/Conductor.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MelodyPlayingBehaviour.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MusicalInstrument.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/SoundController.java</file>
+            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/DiatonicScale.java</file>
         </group>
     </open-files>
 </project-private>

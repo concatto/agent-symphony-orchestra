@@ -22,7 +22,7 @@ public class Conductor extends Agent {
     }
 
     protected void setup() {
-        addBehaviour(new TickerBehaviour(this, 1000) {
+        addBehaviour(new TickerBehaviour(this, 500) {
             @Override
             protected void onTick() {
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
