@@ -8,6 +8,7 @@ import jade.wrapper.StaleProxyException;
 import orchestra.MapStage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -39,14 +40,16 @@ public class Map extends JFrame{
     private void initActionListeners() {
         upButton.addActionListener((event) -> {
             this.oldBpmCount = bpmCount;
-            this.bpmCount = bpmCount + 20;
+            this.bpmCount = bpmCount + 100;
             bpms.setText(bpmCount.toString());
         });
         
         downButton.addActionListener((event) -> {
-            this.oldBpmCount = bpmCount;
-            this.bpmCount = bpmCount - 20;
-            bpms.setText(bpmCount.toString());
+            if (this.bpmCount - 100 > 0) {
+                this.oldBpmCount = bpmCount;
+                this.bpmCount = bpmCount - 100;
+                bpms.setText(bpmCount.toString());
+            }
         });
     }
     
@@ -55,7 +58,7 @@ public class Map extends JFrame{
     }
     
     public boolean checkChangeBpm() {
-        if (this.oldBpmCount == this.bpmCount) { return false; }
+        if (Objects.equals(this.oldBpmCount, this.bpmCount)) { return false; }
         
         this.oldBpmCount = bpmCount;
         return true;
