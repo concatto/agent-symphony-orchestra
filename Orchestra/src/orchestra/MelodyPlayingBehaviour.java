@@ -84,5 +84,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         
         int melodyIndex = new Random().nextInt(melodies.size());
         melody = melodies.get(melodyIndex);
+        
+        ((MusicianAgent) myAgent).notifyMelodyCompletion();
     }
 }

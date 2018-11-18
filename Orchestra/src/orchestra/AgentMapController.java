@@ -27,7 +27,7 @@ public class AgentMapController extends Agent{
             protected void onTick() {
                 if (map.checkChangeBpm()) {
                     ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                    msg.addReceiver(new AID("orchestador", AID.ISLOCALNAME));
+                    msg.addReceiver(new AID("conductor", AID.ISLOCALNAME));
                     msg.setContent(Integer.toString(map.getBpmCount()));
                     send(msg);
                 }

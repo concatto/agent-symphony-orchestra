@@ -45,7 +45,7 @@ public class DiatonicScale {
         }
         
         int x = type.getSemitonesFromTonic()[index];
-        System.out.println("From tonic = " + x);
+        //System.out.println("From tonic = " + x);
         int semitones = x + getAccidentValue(accident);
         
         return semitones + (12 * octaveDifference);
