@@ -42,6 +42,8 @@ public class Orchestra {
         AgentController bass;
         AgentController clarinet;
         AgentController agentMap;
+        AgentController spalla;
+        
         
         Object[] objViolin = new Object[]{"vivaldi.txt", "CLARINET", "5"};
         Object[] objClarinet = new Object[]{"vivaldi.txt", "VIOLIN", "4"};
@@ -51,6 +53,9 @@ public class Orchestra {
             
             conductor = ac.createNewAgent("orchestador", "orchestra.Conductor", null);
             conductor.start();
+            
+            spalla = ac.createNewAgent("spalla", "orchestra.ConcertMaster", null);
+            spalla.start();
             
             bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", objBass);
             bass.start();
@@ -62,6 +67,8 @@ public class Orchestra {
             clarinet.start();
             
             agentMap = ac.createNewAgent("agentMap", "orchestra.AgentMapController", null);
+            agentMap.start();
+            
             
         } catch (StaleProxyException ex) {
             System.out.println("Erro");

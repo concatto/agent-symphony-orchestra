@@ -24,6 +24,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class Map extends JFrame{
     
     private Integer bpmCount;
+    private Integer oldBpmCount;
     
     private final JPanel panelMusicians = new JPanel(new BorderLayout());
     private final JPanel panelButtons = new JPanel(new FlowLayout());
@@ -37,19 +38,33 @@ public class Map extends JFrame{
     
     private void initActionListeners() {
         upButton.addActionListener((event) -> {
-            this.bpmCount = bpmCount + 5;
+            this.oldBpmCount = bpmCount;
+            this.bpmCount = bpmCount + 20;
             bpms.setText(bpmCount.toString());
         });
         
         downButton.addActionListener((event) -> {
-            this.bpmCount = bpmCount - 5;
+            this.oldBpmCount = bpmCount;
+            this.bpmCount = bpmCount - 20;
             bpms.setText(bpmCount.toString());
         });
     }
     
+    public int getBpmCount() {
+        return bpmCount;
+    }
+    
+    public boolean checkChangeBpm() {
+        if (this.oldBpmCount == this.bpmCount) { return false; }
+        
+        this.oldBpmCount = bpmCount;
+        return true;
+    }
+    
     public Map() {
         
-        this.bpmCount = 60;
+        this.bpmCount = 500;
+        this.oldBpmCount = 500;
         bpms = new JLabel(bpmCount.toString());
         
         initActionListeners();
