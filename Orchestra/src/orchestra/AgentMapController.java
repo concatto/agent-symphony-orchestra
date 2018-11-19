@@ -72,11 +72,6 @@ public class AgentMapController extends Agent{
     }
     
     private void changeMapState(int agentIndex) {
-        try {
-            Thread.sleep(140);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(AgentMapController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         map.stage.changeImage(agentIndex);
     }
     

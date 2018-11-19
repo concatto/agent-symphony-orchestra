@@ -19,9 +19,9 @@ public class MapStage extends JPanel {
     
     public MapStage() {
         
-        agentsPanel.add(new MusicianPanel(100, 370, "violino.png", "cello.jpg"));
-        agentsPanel.add(new MusicianPanel(300, 370, "cello.jpg", "flauta.png"));
-        agentsPanel.add(new MusicianPanel(500, 370, "flauta.png", "cello.jpg"));
+        agentsPanel.add(new MusicianPanel(100, 370, "violino.png", "violino2.png"));
+        agentsPanel.add(new MusicianPanel(300, 370, "cello.png", "cello2.png"));
+        agentsPanel.add(new MusicianPanel(500, 370, "flauta.png", "cello.png"));
         agentsPanel.add(new MusicianPanel(320, 280, "flauta.png", "violino.png"));
         
         try {

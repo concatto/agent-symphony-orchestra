@@ -6,9 +6,10 @@
             <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Map.java</file>
             <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
             <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicalInstrument.java</file>
+            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianPanel.java</file>
+            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/AgentMapController.java</file>
             <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MapStage.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/PianoAgent.java</file>
+            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Conductor.java</file>
         </group>
     </open-files>
 </project-private>

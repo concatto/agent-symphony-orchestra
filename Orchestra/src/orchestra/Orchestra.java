@@ -63,8 +63,8 @@ public class Orchestra {
             spalla.start();
             
             //bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", objBass);
-            //bass = ac.createNewAgent("cello", "orchestra.MusicianAgent", objBass);
-            //bass.start();
+            bass = ac.createNewAgent("cello", "orchestra.MusicianAgent", objBass);
+            bass.start();
             
             violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objViolin);
             violin.start();
