@@ -41,16 +41,16 @@ public class AgentMapController extends Agent{
                 ACLMessage msg = receive();
                 if (msg != null) {
                     if (msg.getSender().getLocalName().equals("conductor")) {
-                        changeMapState(3);
+                        changeMapState(msg.getContent(), 3);
                     }
                     else if (msg.getSender().getLocalName().equals("violin")) {
-                        changeMapState(0);
+                        changeMapState(msg.getContent(), 0);
                     }
                     else if (msg.getSender().getLocalName().equals("cello")) {
-                        changeMapState(1);
+                        changeMapState(msg.getContent(), 1);
                     }
                     else if (msg.getSender().getLocalName().equals("wind")) {
-                        changeMapState(2);
+                        changeMapState(msg.getContent(), 2);
                     }
                 }
                 block();
@@ -71,8 +71,13 @@ public class AgentMapController extends Agent{
         });
     }
     
-    private void changeMapState(int agentIndex) {
-        map.stage.changeImage(agentIndex);
+    private void changeMapState(String msg, int agentIndex) {
+        if (msg.equals("changeNoteImage")) {
+            //do something;
+        }
+        else {
+            map.stage.changeImage(agentIndex);
+        }
     }
     
 }

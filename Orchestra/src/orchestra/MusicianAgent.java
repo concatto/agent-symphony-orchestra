@@ -78,7 +78,7 @@ public class MusicianAgent extends Agent {
     private void sendMessageToMap() {
         ACLMessage msg3 = new ACLMessage(ACLMessage.INFORM);
         msg3.addReceiver(new AID("agentMap", AID.ISLOCALNAME));
-        msg3.setContent("");
+        msg3.setContent("changeImage");
         send(msg3);
     }
     

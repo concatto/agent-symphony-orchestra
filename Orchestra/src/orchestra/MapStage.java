@@ -19,10 +19,10 @@ public class MapStage extends JPanel {
     
     public MapStage() {
         
-        agentsPanel.add(new MusicianPanel(100, 370, "violino.png", "violino2.png"));
-        agentsPanel.add(new MusicianPanel(300, 370, "cello.png", "cello2.png"));
-        agentsPanel.add(new MusicianPanel(500, 370, "flauta.png", "flauta2.png"));
-        agentsPanel.add(new MusicianPanel(320, 280, "flauta.png", "violino.png"));
+        agentsPanel.add(new MusicianPanel(100, 370, 50, 370, "violino.png", "violino2.png"));
+        agentsPanel.add(new MusicianPanel(300, 370, 250, 370, "cello.png", "cello2.png"));
+        agentsPanel.add(new MusicianPanel(500, 370, 450, 370, "flauta.png", "flauta2.png"));
+        agentsPanel.add(new MusicianPanel(320, 280, 0,0, "flauta.png", "violino.png"));
         
         try {
             this.image = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("palco.jpg"), "palco.jpg"));
@@ -30,6 +30,15 @@ public class MapStage extends JPanel {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Vai precisar adicionar a tonica ai tambem pra fazer o calculo
+    public void setNoteImage(int shiftDegree) {
+        switch (shiftDegree) {
+            case 0:
+                
+                break;
         }
     }
     
@@ -44,6 +53,7 @@ public class MapStage extends JPanel {
         
         for(MusicianPanel m : agentsPanel) {
             g.drawImage(m.currentImage, m.x, m.y, 100, 100, this);
+            g.drawImage(m.currentNote, m.xnote, m.ynote, 100, 100, this);
         }
         //g.drawImage(currentImage, x, y, 100, 100, this);
         //g.drawImage(currentImage, x*2, y*2, 100, 100, this);
