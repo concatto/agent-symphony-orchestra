@@ -36,7 +36,7 @@ public class MusicianAgent extends Agent {
     private MelodyPlayingBehaviour melodyBehaviour = null;
     private MusicalInstrument instrument;
     private int degreeShift = 0;
-    private int cumulativeBeats = 0;
+    protected int cumulativeBeats = 0;
     
     @Override
     protected void setup() {
@@ -67,7 +67,12 @@ public class MusicianAgent extends Agent {
                     msg = receive();
 
                     if (msg != null) {
-                        System.out.println("Agent " + getLocalName() + " received \"" + msg.getContent() + "\" from " + msg.getSender().getLocalName() + "@" + Instant.now());
+                        if(msg.getContent().endsWith("newDegreeShift")){
+                            String[] aux = msg.getContent().split("\\s+");
+                            MusicianAgent.this.degreeShift =  Integer.parseInt(aux[0]);
+                            System.out.println(myAgent.getLocalName()+" new Degree: "+MusicianAgent.this.degreeShift);
+                        }
+                       // System.out.println("Agent " + getLocalName() + " received \"" + msg.getContent() + "\" from " + msg.getSender().getLocalName() + "@" + Instant.now());
                         handleMessage(msg);
                     }
                 } while (msg != null);
@@ -77,19 +82,25 @@ public class MusicianAgent extends Agent {
         });
     }
     
+
+    
     protected void handleMessage(ACLMessage msg) {
         if (msg.getSender().getLocalName().equalsIgnoreCase("conductor")) {
            int beat = Integer.parseInt(msg.getContent());
 
            beat(beat);
            //sendMessageToMap();
-
         }
         
         if (msg.getContent().equalsIgnoreCase("remainingBeats")) {
             ACLMessage reply = msg.createReply();
             int remaining = melodyBehaviour.getCurrentMelody().countBeats() - cumulativeBeats;
             reply.setContent(remaining + " remaining");
+            send(reply);
+        }else if(msg.getContent().equalsIgnoreCase("changeDegree")){
+            ACLMessage reply = msg.createReply();
+            int randomNumber = (int)(Math.random() * ((4 - 0) + 1));
+            reply.setContent(randomNumber + " actualDegree");
             send(reply);
         }
         
@@ -122,6 +133,8 @@ public class MusicianAgent extends Agent {
         
         computeBPM();
         cumulativeBeats++;
+        
+        
         
         if (index == 1 && beatQueue.isFull() && melodyBehaviour == null) {
             beginPlaying();

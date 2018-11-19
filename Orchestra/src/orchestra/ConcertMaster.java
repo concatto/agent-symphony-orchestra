@@ -13,12 +13,14 @@ import jade.lang.acl.ACLMessage;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class ConcertMaster extends MusicianAgent {
     private ReplyExpectation expectation;
+    private ReplyExpectation expectationDegree;
    
     public ConcertMaster() {
         
@@ -33,28 +35,51 @@ public class ConcertMaster extends MusicianAgent {
     protected void handleMessage(ACLMessage msg) {
         super.handleMessage(msg);
         
-        if (msg.getPerformative() == ACLMessage.PROPAGATE) {
+        //if (msg.getPerformative()== ACLMessage.PROPAGATE) {
             if (msg.getContent().equalsIgnoreCase("tutti")) {
                 System.out.println("Tutti received");
                 handleTuttiRequest();
+            }else if(msg.getContent().equalsIgnoreCase("willChangeDegree")){
+                System.out.println("DegreeShift warning received");
+                handleDegreeRequest();
             }
-        }
+        //}
         
-        if (expectation != null) {
+        testExpectation(expectation, msg, this::handleTuttiResponse);
+        testExpectation(expectationDegree, msg, this::handleDegreeResponse);
+    }
+    
+    private void testExpectation(ReplyExpectation expectation, ACLMessage msg, Consumer<Map<AID, String>> handler) {
+        if (expectation != null && !expectation.isFulfilled()) {
             expectation.test(msg);
             
             if (expectation.isFulfilled()) {
-                handleTuttiResponse(expectation.getReplies());
-                
-                expectation = null;
+                handler.accept(expectation.getReplies());
             }
         }
     }
+
+    public void handleDegreeRequest() {
+        try {
+            List<AID> musicians = DirectoryUtils.queryService(this, "musician");
+            ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                
+            for (AID aid : musicians) {
+                msg.addReceiver(aid);
+            }
+            
+            msg.setContent("changeDegree");
+            send(msg);
+            
+            expectationDegree = expectReply(musicians, "\\d+ actualDegree");
+        } catch (FIPAException ex) {
+            Logger.getLogger(ConcertMaster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }        
     
     public void handleTuttiRequest() {
         try {
             List<AID> musicians = DirectoryUtils.queryService(this, "treble");
-            
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                 
             for (AID aid : musicians) {
@@ -64,16 +89,37 @@ public class ConcertMaster extends MusicianAgent {
             msg.setContent("remainingBeats");
             send(msg);
             
-            expectReply(musicians, "\\d+ remaining");
+            expectation = expectReply(musicians, "\\d+ remaining");
         } catch (FIPAException ex) {
             Logger.getLogger(ConcertMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }    
+    
+    private ReplyExpectation expectReply(List<AID> musicians, String regex) {
+        return new ReplyExpectation(musicians, Pattern.compile(regex));
     }
 
-    private void expectReply(List<AID> musicians, String regex) {
-        expectation = new ReplyExpectation(musicians, Pattern.compile(regex));
+    private void handleDegreeResponse(Map<AID, String> replies){
+        
+        replies.forEach((aid, content) -> {
+            String[] aux = content.split("\\s+");
+            if(Integer.parseInt(aux[0])%2 == 0){
+                ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                message.addReceiver(aid);
+                message.setContent(content + " newDegreeShift");
+                send(message);    
+            }else{
+                ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                message.addReceiver(aid);
+                String[] aux2 = content.split("\\s+");
+                content = Integer.toString(Integer.parseInt(aux2[0]) + 1);
+                message.setContent(content + " newDegreeShift");
+                send(message);                    
+            }
+            
+        });        
     }
-
+    
     private void handleTuttiResponse(Map<AID, String> replies) {
         int melodyIndex = chooseMelody();
         
@@ -101,4 +147,27 @@ public class ConcertMaster extends MusicianAgent {
         String value = content.split(" ")[0];
         return Integer.parseInt(value);
     }
+    
+    @Override
+    public void beat(int index) {
+        super.beat(index); //To change body of generated methods, choose Tools | Templates.
+        if(this.cumulativeBeats%12 == 0){
+            System.out.println("entrou");
+            addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                msg.addReceiver(new AID("spalla", AID.ISLOCALNAME));                
+                int randomNumber = (int)(Math.random() * ((6 - 0) + 1));
+                msg.setContent("willChangeDegree");
+                send(msg);
+            }
+        });   
+        }
+    }
+
+
+    
 }
+
+

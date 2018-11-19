@@ -46,7 +46,7 @@ public class Orchestra {
         
         
         Object[] objViolin = new Object[]{"vivaldi.txt", "VIOLIN", "4", "treble"};
-        Object[] objClarinet = new Object[]{"vivaldi.txt", "CLARINET", "6", "treble"};
+        Object[] objClarinet = new Object[]{"vivaldi.txt", "CLARINET", "5", "treble"};
         Object[] objBass = new Object[]{"bass.txt", "CELLO", "4", "bass"};
         
         try {

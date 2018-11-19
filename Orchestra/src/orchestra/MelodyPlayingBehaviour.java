@@ -27,7 +27,6 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     private long startTime;
     private int beatsToWait = 0;
     private int nextMelody = -1;
-    private double cumulativeDuration = 0;
     
     public MelodyPlayingBehaviour(Agent myAgent, List<Melody> melodies, float bpm) {
         super(myAgent);
@@ -71,7 +70,6 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
             //System.out.println("Playing " + note.getTone());
         }
         
-        cumulativeDuration += note.getDuration();
         totalSleep = Math.round((60.0 / bpm) * 1000 * note.getDuration());
         totalSleep += remainingSleep; // The agent overslept!
         //System.out.println("Will sleep for " + totalSleep);
@@ -88,7 +86,6 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     }
 
     private void finishMelody() {
-        cumulativeDuration = 0;
         noteIndex = 0;
         
         if (beatsToWait > 0) {
@@ -114,6 +111,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     }
 
     public int getRandomMelodyIndex() {
-        return new Random().nextInt(melodies.size());
+//        return new Random().nextInt(melodies.size());
+        return 3;
     }
 }
