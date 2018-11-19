@@ -44,12 +44,21 @@ public class MelodyReader {
                     notes.add(new Note(pitch, accident, duration));
                 }
             } else {
-                melodies.add(new Melody(name, notes));
+                Melody m = new Melody(name, notes);
+                System.out.println("Constructing melody " + name + ". Notes = " + notes.size() + "; beats = " + m.countBeats());
+                
+                if (m.countBeats() % 4 != 0) {
+                    throw new IllegalArgumentException("File contains a melody that does not fit in 4/4 time: " + name);
+                }
+                
+                melodies.add(m);
+                
                 name = null;
                 notes.clear();
             }
         }
         
+        System.out.println("Melodies size: " + melodies.size());
         return melodies;
     }
 }

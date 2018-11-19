@@ -20,20 +20,12 @@ public class AgentMapController extends Agent{
     
     @Override
     protected void setup() {
-        
-        ServiceDescription sd = new ServiceDescription();
-        DFAgentDescription dfd = new DFAgentDescription();
-        
-        sd.setName(getLocalName());
-        sd.setType("musician");
-        dfd.setName(getAID());
-        dfd.addServices(sd);
-        
-        try {
-            DFService.register(this, dfd);
-        } catch (FIPAException ex) {
-            Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        map.onCommand(command -> {            
+            ACLMessage message = new ACLMessage(ACLMessage.PROPAGATE);
+            message.addReceiver(new AID("spalla", AID.ISLOCALNAME));
+            message.setContent(command);
+            send(message);
+        });
         
         addBehaviour(new CyclicBehaviour(this) {
             @Override

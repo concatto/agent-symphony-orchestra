@@ -19,12 +19,15 @@ import orchestra.MusicianAgent;
  */
 public class MelodyPlayingBehaviour extends CyclicBehaviour {
     private final List<Melody> melodies;
-    private Melody melody;
+    private Melody currentMelody;
     private float bpm;
     private int noteIndex = 0;
     private long remainingSleep = 0;
     private long totalSleep = 0;
     private long startTime;
+    private int beatsToWait = 0;
+    private int nextMelody = -1;
+    private double cumulativeDuration = 0;
     
     public MelodyPlayingBehaviour(Agent myAgent, List<Melody> melodies, float bpm) {
         super(myAgent);
@@ -53,22 +56,22 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         }
         
         if (noteIndex > 0) {
-            agent.stop(melody.getNotes().get(noteIndex - 1));
+            agent.stop(currentMelody.getNotes().get(noteIndex - 1));
             //System.out.println("Stopping " + melody.getNotes().get(noteIndex - 1).getTone());
 
-            if (noteIndex >= melody.getNotes().size()) {
+            if (noteIndex >= currentMelody.getNotes().size()) {
                 finishMelody();
             }
         }
         
-        Note note = melody.getNotes().get(noteIndex);
+        Note note = currentMelody.getNotes().get(noteIndex);
         
         if (!note.isRest()) {
             agent.play(note);
             //System.out.println("Playing " + note.getTone());
         }
         
-        
+        cumulativeDuration += note.getDuration();
         totalSleep = Math.round((60.0 / bpm) * 1000 * note.getDuration());
         totalSleep += remainingSleep; // The agent overslept!
         //System.out.println("Will sleep for " + totalSleep);
@@ -78,13 +81,39 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         noteIndex++;
         startTime = System.currentTimeMillis();
     }
+    
+    public void synchronize(int beatsToWait, int melodyIndex) {
+        this.beatsToWait = beatsToWait;
+        this.nextMelody = melodyIndex;
+    }
 
     private void finishMelody() {
+        cumulativeDuration = 0;
         noteIndex = 0;
         
-        int melodyIndex = new Random().nextInt(melodies.size());
-        melody = melodies.get(melodyIndex);
+        if (beatsToWait > 0) {
+            System.out.println("will rest for " + beatsToWait);
+            currentMelody = Melody.empty(beatsToWait);
+            beatsToWait = 0;
+        } else {
+            int melodyIndex = getRandomMelodyIndex();
+            
+            if (nextMelody >= 0) {
+                melodyIndex = nextMelody;
+                nextMelody = -1;
+            }
+            
+            currentMelody = melodies.get(melodyIndex);
+        }
         
         ((MusicianAgent) myAgent).notifyMelodyCompletion();
+    }
+
+    public Melody getCurrentMelody() {
+        return currentMelody;
+    }
+
+    public int getRandomMelodyIndex() {
+        return new Random().nextInt(melodies.size());
     }
 }

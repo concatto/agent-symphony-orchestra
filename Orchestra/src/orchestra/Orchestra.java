@@ -45,9 +45,9 @@ public class Orchestra {
         AgentController spalla;
         
         
-        Object[] objViolin = new Object[]{"vivaldi.txt", "VIOLIN", "5"};
-        Object[] objClarinet = new Object[]{"vivaldi.txt", "CLARINET", "4"};
-        Object[] objBass = new Object[]{"bass.txt", "CELLO", "4"};
+        Object[] objViolin = new Object[]{"vivaldi.txt", "VIOLIN", "4", "treble"};
+        Object[] objClarinet = new Object[]{"vivaldi.txt", "CLARINET", "6", "treble"};
+        Object[] objBass = new Object[]{"bass.txt", "CELLO", "4", "bass"};
         
         try {
             
@@ -59,7 +59,7 @@ public class Orchestra {
             agentMap = ac.createNewAgent("agentMap", "orchestra.AgentMapController", null);
             agentMap.start();
             
-            spalla = ac.createNewAgent("spalla", "orchestra.ConcertMaster", null);
+            spalla = ac.createNewAgent("spalla", "orchestra.ConcertMaster", objViolin);
             spalla.start();
             
             //bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", objBass);
@@ -68,7 +68,7 @@ public class Orchestra {
             
             violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objViolin);
             violin.start();
-            
+//            
             clarinet = ac.createNewAgent("wind", "orchestra.MusicianAgent", objClarinet);
             clarinet.start();
             

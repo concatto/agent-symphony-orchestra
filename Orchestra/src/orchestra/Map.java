@@ -9,6 +9,7 @@ import orchestra.MapStage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -36,6 +37,7 @@ public class Map extends JFrame{
     private final JLabel bpms;
    
     public MapStage stage = new MapStage();
+    private Consumer<String> commandHandler;
     
     private void initActionListeners() {
         upButton.addActionListener((event) -> {
@@ -45,12 +47,25 @@ public class Map extends JFrame{
         });
         
         downButton.addActionListener((event) -> {
-            if (this.bpmCount - 100 > 0) {
-                this.oldBpmCount = bpmCount;
-                this.bpmCount = bpmCount - 100;
-                bpms.setText(bpmCount.toString());
-            }
+//            if (this.bpmCount - 100 > 0) {
+//                this.oldBpmCount = bpmCount;
+//                this.bpmCount = bpmCount - 100;
+//                bpms.setText(bpmCount.toString());
+//            }
+            
+            System.out.println("Sending command from button");
+            sendCommand("tutti");
         });
+    }
+    
+    public void onCommand(Consumer<String> handler) {
+        this.commandHandler = handler;
+    }
+    
+    private void sendCommand(String command) {
+        if (commandHandler != null) {
+            commandHandler.accept(command);
+        }
     }
     
     public int getBpmCount() {

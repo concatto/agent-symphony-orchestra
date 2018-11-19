@@ -6,6 +6,7 @@
 package orchestra;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class Melody {
     public List<Note> getNotes() {
         return notes;
     }
-
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Name: ").append(name).append("\n");
@@ -38,5 +39,18 @@ public class Melody {
         
         return builder.toString();
     }
-   
+    
+    public int countBeats() {
+        return countBeats(0);
+    }
+    
+    public int countBeats(int fromIndex) {
+        return (int) Math.round(notes.stream().skip(fromIndex).map(note -> note.getDuration()).reduce(0d, Double::sum));
+    }
+    
+    public static Melody empty(int beats) {
+        List<Note> notes = Arrays.asList(new Note(Note.REST, beats));
+        
+        return new Melody("pause", notes);
+    }
 }

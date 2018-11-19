@@ -3,23 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Map.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianPanel.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/AgentMapController.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/MapStage.java</file>
-            <file>file:/C:/Users/haler/Desktop/Faculdade/agent-symphony-orchestra/Orchestra/src/orchestra/Conductor.java</file>
-=======
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/Conductor.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MelodyPlayingBehaviour.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/MusicalInstrument.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/SoundController.java</file>
-            <file>file:/C:/Users/Fernando/agent-symphony-orchestra/Orchestra/src/orchestra/DiatonicScale.java</file>
->>>>>>> 6c930dc1d9f82861f9e17c786818db54f1131972
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/SoundController.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/Map.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/Conductor.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/MelodyPlayingBehaviour.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/MusicalInstrument.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/Melody.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/DirectoryUtils.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/ConcertMaster.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/Orchestra.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/MusicianAgent.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/MapStage.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/MelodyReader.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/ReplyExpectation.java</file>
+            <file>file:/home/concatto/agent-symphony-orchestra/Orchestra/src/orchestra/AgentMapController.java</file>
         </group>
     </open-files>
 </project-private>

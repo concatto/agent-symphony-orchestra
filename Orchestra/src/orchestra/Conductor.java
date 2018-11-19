@@ -42,9 +42,9 @@ public class Conductor extends Agent {
                     msg.addReceiver(aid);
                 }
                 
+                msg.addReceiver(new AID("agentMap", AID.ISLOCALNAME));
                 msg.setContent(String.valueOf(beatIndex++));
                 send(msg);
-                System.out.println(msg.getSender().getLocalName() + ": " + msg.getContent());
                 
                 if (beatIndex > 4) {
                     beatIndex = 1;
@@ -57,17 +57,10 @@ public class Conductor extends Agent {
     }
     
     public void updateMusicians() {
-        ServiceDescription sd = new ServiceDescription();
-        DFAgentDescription dfd = new DFAgentDescription();
-
-        sd.setType("musician");
-        dfd.addServices(sd);
-
         try {
-            DFAgentDescription[] result = DFService.search(this, dfd);
-            for (DFAgentDescription x : result) {
-                musicians.add(x.getName());
-            }
+            DirectoryUtils.queryService(this, "musician").forEach(aid -> {
+                musicians.add(aid);
+            });
         } catch (FIPAException ex) {
             Logger.getLogger(Conductor.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.net.URL;
+import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -34,18 +36,17 @@ public class MusicianAgent extends Agent {
     private MelodyPlayingBehaviour melodyBehaviour = null;
     private MusicalInstrument instrument;
     private int degreeShift = 0;
+    private int cumulativeBeats = 0;
     
     @Override
     protected void setup() {
         Object[] args = getArguments();
         
-        ServiceDescription sd = new ServiceDescription();
         DFAgentDescription dfd = new DFAgentDescription();
         
-        sd.setName(getLocalName());
-        sd.setType("musician");
         dfd.setName(getAID());
-        dfd.addServices(sd);
+        dfd.addServices(createService("musician"));
+        dfd.addServices(createService(args[3].toString()));
         
         try {
             DFService.register(this, dfd);
@@ -60,19 +61,45 @@ public class MusicianAgent extends Agent {
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
-                ACLMessage msg2 = receive();
-                if (msg2 != null) {
-                    System.out.println(myAgent.getLocalName() + ": " + msg2.getContent());
-                    int beat = Integer.parseInt(msg2.getContent());
-                    
-                    beat(beat);
-                    sendMessageToMap();
-                    
-                    block();
-                }
+                ACLMessage msg;
+                
+                do {
+                    msg = receive();
 
+                    if (msg != null) {
+                        System.out.println("Agent " + getLocalName() + " received \"" + msg.getContent() + "\" from " + msg.getSender().getLocalName() + "@" + Instant.now());
+                        handleMessage(msg);
+                    }
+                } while (msg != null);
+                
+                block();
             }
         });
+    }
+    
+    protected void handleMessage(ACLMessage msg) {
+        if (msg.getSender().getLocalName().equalsIgnoreCase("conductor")) {
+           int beat = Integer.parseInt(msg.getContent());
+
+           beat(beat);
+           //sendMessageToMap();
+
+        }
+        
+        if (msg.getContent().equalsIgnoreCase("remainingBeats")) {
+            ACLMessage reply = msg.createReply();
+            int remaining = melodyBehaviour.getCurrentMelody().countBeats() - cumulativeBeats;
+            reply.setContent(remaining + " remaining");
+            send(reply);
+        }
+        
+        if (msg.getContent().startsWith("synchronize")) {
+            String[] parts = msg.getContent().split(" ");
+            int melody = Integer.parseInt(parts[1]);
+            int toWait = Integer.parseInt(parts[3]);
+            
+            melodyBehaviour.synchronize(toWait, melody);
+        }
     }
     
     private void sendMessageToMap() {
@@ -90,11 +117,11 @@ public class MusicianAgent extends Agent {
         instrument.stop(note.getPitch() + degreeShift, note.getAccident());
     }
     
-    public void beat(int index) {        
-        System.out.println(index);
+    public void beat(int index) {
         beatQueue.insert(System.currentTimeMillis());
         
         computeBPM();
+        cumulativeBeats++;
         
         if (index == 1 && beatQueue.isFull() && melodyBehaviour == null) {
             beginPlaying();
@@ -132,6 +159,8 @@ public class MusicianAgent extends Agent {
             
             melodyBehaviour = new MelodyPlayingBehaviour(this, melodies, bpm);
             addBehaviour(melodyBehaviour);
+            
+            cumulativeBeats = 0;
         } catch (IOException ex) {
             Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -139,5 +168,20 @@ public class MusicianAgent extends Agent {
 
     public void notifyMelodyCompletion() {
         //degreeShift = new Random().nextInt(3) * 2;
+        cumulativeBeats = 0;
     }
+    
+    private ServiceDescription createService(String type) {
+        ServiceDescription sd = new ServiceDescription();
+        
+        sd.setName(getLocalName());
+        sd.setType(type);
+        
+        return sd;
+    }
+
+    public MelodyPlayingBehaviour getMelodyBehaviour() {
+        return melodyBehaviour;
+    }
+
 }
