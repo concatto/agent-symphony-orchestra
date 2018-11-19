@@ -101,21 +101,43 @@ public class ConcertMaster extends MusicianAgent {
 
     private void handleDegreeResponse(Map<AID, String> replies){
         
+        int parimpar = (int)(Math.random() * ((10 - 0) + 1));
+        
         replies.forEach((aid, content) -> {
             String[] aux = content.split("\\s+");
-            if(Integer.parseInt(aux[0])%2 == 0){
-                ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
-                message.addReceiver(aid);
-                message.setContent(content + " newDegreeShift");
-                send(message);    
+            
+            //se o apalla decidir que o novo degree shift é impar ou par...
+            if(parimpar%2 == 0){
+                if(Integer.parseInt(aux[0])%2 == 0){
+                    ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                    message.addReceiver(aid);
+                    message.setContent(aux[0] + " newDegreeShift");
+                    send(message);    
+                }else{
+                    ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                    message.addReceiver(aid);
+                    String[] aux2 = content.split("\\s+");
+                    content = Integer.toString(Integer.parseInt(aux2[0]) + 1);
+                    message.setContent(content + " newDegreeShift");
+                    send(message);                    
+                }                
             }else{
-                ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
-                message.addReceiver(aid);
-                String[] aux2 = content.split("\\s+");
-                content = Integer.toString(Integer.parseInt(aux2[0]) + 1);
-                message.setContent(content + " newDegreeShift");
-                send(message);                    
+                if(Integer.parseInt(aux[0])%2 == 0){
+                    ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                    message.addReceiver(aid);
+                    String[] aux2 = content.split("\\s+");
+                    content = Integer.toString(Integer.parseInt(aux2[0]) + 1);
+                    message.setContent(content + " newDegreeShift");
+                    send(message);    
+                }else{
+                    ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
+                    message.addReceiver(aid);
+                    message.setContent(aux[0] + " newDegreeShift");
+                    send(message);                    
+                }                                
             }
+            
+
             
         });        
     }
