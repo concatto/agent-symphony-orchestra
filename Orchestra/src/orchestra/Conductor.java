@@ -26,10 +26,21 @@ public class Conductor extends Agent {
             public void action() {
                 ACLMessage msg2 = receive();
                 if (msg2 != null) {
-                    timer = Integer.parseInt(msg2.getContent());
-                    System.out.println("Changed time to: " + timer);
-                    block();
+                    if (msg2.getPerformative() == ACLMessage.PROPAGATE) {
+                        ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+                        message.setContent(msg2.getContent());
+                        message.addReceiver(new AID("spalla", AID.ISLOCALNAME));
+                        send(message);
+                    } else {
+                        try {
+                            timer = Integer.parseInt(msg2.getContent());
+                            System.out.println("Changed time to: " + timer);
+                        } catch (NumberFormatException e) {
+                            System.err.println("Tried to parse " + msg2.getContent() + " as integer but failed");
+                        }
+                    }
                 }
+                block();
             }
         });
         

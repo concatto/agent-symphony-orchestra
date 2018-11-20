@@ -10,15 +10,15 @@ package orchestra;
  * @author concatto
  */
 public class DiatonicScale {
-    private char tonic;
+    private String tonic;
     private ScaleType type;
 
-    public DiatonicScale(char tonic, ScaleType type) {
-        this.tonic = Character.toUpperCase(tonic);
+    public DiatonicScale(String tonic, ScaleType type) {
+        this.tonic = tonic;
         this.type = type;
     }
 
-    public char getTonic() {
+    public String getTonic() {
         return tonic;
     }
     

@@ -41,17 +41,23 @@ public class Orchestra {
         AgentController violin;
         AgentController bass;
         AgentController clarinet;
+        AgentController flute;
         AgentController agentMap;
         AgentController spalla;
         
-        
-        Object[] objViolin = new Object[]{"vivaldi.txt", "VIOLIN", "4", "treble"};
-        Object[] objClarinet = new Object[]{"vivaldi.txt", "CLARINET", "5", "treble"};
-        Object[] objBass = new Object[]{"bass.txt", "CELLO", "4", "bass"};
+        /*
+        melodyFile = arguments[0].toString();
+        instrumentName = arguments[1].toString();
+        startingOctave = Integer.parseInt(arguments[2].toString());
+        musicalRole = arguments[3].toString();
+        section = arguments[4].toString();
+        */
+        Object[] objViolin = new Object[]{"treble.txt", "FAST_STRINGS", "5", "treble", "violins"};
+        Object[] objClarinet = new Object[]{"treble.txt", "CLARINET", "5", "treble", "winds"};
+        Object[] objFlute = new Object[]{"treble.txt", "FLUTE", "5", "treble", "winds"};
+        Object[] objBass = new Object[]{"bass.txt", "SLOW_STRINGS", "4", "bass", "continuo"};
         
         try {
-            
-           
             
             conductor = ac.createNewAgent("conductor", "orchestra.Conductor", null);
             conductor.start();
@@ -68,9 +74,13 @@ public class Orchestra {
             
             violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objViolin);
             violin.start();
-//            
-            clarinet = ac.createNewAgent("wind", "orchestra.MusicianAgent", objClarinet);
+////            
+            
+            clarinet = ac.createNewAgent("wind", "orchestra.SectionLeader", objClarinet);
             clarinet.start();
+            
+            flute = ac.createNewAgent("flute", "orchestra.MusicianAgent", objFlute);
+            flute.start();
             
             
         } catch (StaleProxyException ex) {

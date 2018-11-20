@@ -8,6 +8,7 @@ import jade.wrapper.StaleProxyException;
 import orchestra.MapStage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -28,11 +29,17 @@ public class Map extends JFrame{
     private Integer bpmCount;
     private Integer oldBpmCount;
     
+    private final JPanel commandPanel = new JPanel(new FlowLayout());
     private final JPanel panelMusicians = new JPanel(new BorderLayout());
     private final JPanel panelButtons = new JPanel(new FlowLayout());
     
     private final JButton upButton = new JButton("Up");
-    private final JButton downButton = new JButton("Down"); 
+    private final JButton downButton = new JButton("Down");
+    private final JButton tuttiButton = new JButton("Tutti");
+    private final JButton espressivoButton = new JButton("Espressivo");
+    private final JButton lacrimosoButton = new JButton("Lacrimoso");
+    private final JButton grandiosoButton = new JButton("Grandioso");
+    private final JButton appassionatoButton = new JButton("Appassionato");
     
     private final JLabel bpms;
    
@@ -47,19 +54,24 @@ public class Map extends JFrame{
         });
         
         downButton.addActionListener((event) -> {
-//            if (this.bpmCount - 100 > 0) {
-//                this.oldBpmCount = bpmCount;
-//                this.bpmCount = bpmCount - 100;
-//                bpms.setText(bpmCount.toString());
-//            }
-            
-            System.out.println("Sending command from button");
-            sendCommand("tutti");
+            if (this.bpmCount - 100 > 0) {
+                this.oldBpmCount = bpmCount;
+                this.bpmCount = bpmCount - 100;
+                bpms.setText(bpmCount.toString());
+            }
         });
+        
+        tuttiButton.addActionListener(e -> sendCommand("tutti"));
+        espressivoButton.addActionListener(e -> changeSentiment(e, "espressivo"));
+        lacrimosoButton.addActionListener(e -> changeSentiment(e, "lacrimoso"));
+        grandiosoButton.addActionListener(e -> changeSentiment(e, "grandioso"));
+        appassionatoButton.addActionListener(e -> changeSentiment(e, "appassionato"));
     }
     
     public void onCommand(Consumer<String> handler) {
         this.commandHandler = handler;
+        
+        espressivoButton.doClick();
     }
     
     private void sendCommand(String command) {
@@ -108,11 +120,30 @@ public class Map extends JFrame{
         //mainPanel.add(BorderLayout.CENTER, panelCodeArea);
         //mainPanel.add(BorderLayout.SOUTH, panelResultCodeArea);
 
+        commandPanel.add(tuttiButton);
+        commandPanel.add(espressivoButton);
+        commandPanel.add(lacrimosoButton);
+        commandPanel.add(grandiosoButton);
+        commandPanel.add(appassionatoButton);
+        
         //add(BorderLayout.CENTER, stage);
+        add(BorderLayout.NORTH, commandPanel);
         add(BorderLayout.CENTER, stage);
         add(BorderLayout.SOUTH, panelButtons);
        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+
+    private void changeSentiment(ActionEvent e, String sentiment) {
+        JButton source = (JButton) e.getSource();
+        sendCommand(sentiment);
+        
+        grandiosoButton.setEnabled(true);
+        lacrimosoButton.setEnabled(true);
+        espressivoButton.setEnabled(true);
+        appassionatoButton.setEnabled(true);
+        
+        source.setEnabled(false);
     }
 }

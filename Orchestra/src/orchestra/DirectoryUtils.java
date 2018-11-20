@@ -11,6 +11,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,5 +33,22 @@ public class DirectoryUtils {
         DFAgentDescription[] result = DFService.search(agent, dfd);
 
         return Arrays.stream(result).map(x -> x.getName()).collect(Collectors.toList());
+    }
+    
+    public static List<AID> broadcast(Agent sender, ACLMessage message, String service) throws FIPAException {
+        List<AID> receivers = DirectoryUtils.queryService(sender, service);
+
+        for (AID aid : receivers) {
+            message.addReceiver(aid);
+        }
+        
+        sender.send(message);
+        return receivers;
+    }
+    
+    public static List<AID> broadcast(Agent sender, int performative, String content, String service) throws FIPAException {
+        ACLMessage message = new ACLMessage(performative);
+        message.setContent(content);
+        return broadcast(sender, message, service);
     }
 }

@@ -14,7 +14,7 @@ public class MusicalInstrument {
     private InstrumentDescriptor descriptor;
     private SoundController controller;
     private int baseOctave = 4;
-    private DiatonicScale tuning = new DiatonicScale('C', ScaleType.MAJOR);
+    private DiatonicScale tuning = new DiatonicScale("C", ScaleType.MAJOR);
 
     public MusicalInstrument(int assignedChannel, InstrumentDescriptor descriptor, SoundController controller) {
         this.assignedChannel = assignedChannel;
@@ -25,6 +25,7 @@ public class MusicalInstrument {
     }
     
     public void tune(DiatonicScale tuning) {
+        controller.allOff(assignedChannel);
         this.tuning = tuning;
     }
 

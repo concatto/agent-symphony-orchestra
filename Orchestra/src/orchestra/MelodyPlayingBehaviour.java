@@ -33,7 +33,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         this.melodies = melodies;
         this.bpm = bpm;
         
-        finishMelody();
+        //finishMelody();
     }
 
     public void setBpm(float bpm) {
@@ -85,7 +85,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         this.nextMelody = melodyIndex;
     }
 
-    private void finishMelody() {
+    public void finishMelody() {
         noteIndex = 0;
         
         if (beatsToWait > 0) {
@@ -93,14 +93,17 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
             currentMelody = Melody.empty(beatsToWait);
             beatsToWait = 0;
         } else {
-            int melodyIndex = getRandomMelodyIndex();
+            int melodyIndex;
             
             if (nextMelody >= 0) {
                 melodyIndex = nextMelody;
                 nextMelody = -1;
+            } else {
+                melodyIndex = getRandomMelodyIndex();
             }
             
             currentMelody = melodies.get(melodyIndex);
+            System.out.println(myAgent.getLocalName() + " is starting melody " + currentMelody.getName());
         }
         
         ((MusicianAgent) myAgent).notifyMelodyCompletion();
@@ -111,7 +114,13 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     }
 
     public int getRandomMelodyIndex() {
-//        return new Random().nextInt(melodies.size());
-        return 3;
+        return new Random().nextInt(melodies.size());
+//        return 3;
     }
+
+    public int getNextMelody() {
+        return nextMelody;
+    }
+    
+    
 }

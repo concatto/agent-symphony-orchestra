@@ -24,6 +24,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -36,17 +37,33 @@ public class MusicianAgent extends Agent {
     private MelodyPlayingBehaviour melodyBehaviour = null;
     private MusicalInstrument instrument;
     private int degreeShift = 0;
+    private Pattern tuningPattern = Pattern.compile("[A-G].? (MAJOR|MINOR)");
     protected int cumulativeBeats = 0;
+    private String melodyFile;
+    private String instrumentName;
+    private int startingOctave;
+    private String musicalRole;
+    private String section;
+    private boolean playing = false;
+    
+    private void parseArguments(Object[] arguments) {
+        melodyFile = arguments[0].toString();
+        instrumentName = arguments[1].toString();
+        startingOctave = Integer.parseInt(arguments[2].toString());
+        musicalRole = arguments[3].toString();
+        section = arguments[4].toString();
+    }    
     
     @Override
     protected void setup() {
-        Object[] args = getArguments();
+        parseArguments(getArguments());      
         
         DFAgentDescription dfd = new DFAgentDescription();
         
         dfd.setName(getAID());
         dfd.addServices(createService("musician"));
-        dfd.addServices(createService(args[3].toString()));
+        dfd.addServices(createService(section));
+        dfd.addServices(createService(musicalRole));
         
         try {
             DFService.register(this, dfd);
@@ -55,9 +72,18 @@ public class MusicianAgent extends Agent {
         }
         
         beatQueue = new BoundedQueue<>(4);
-        instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.valueOf(args[1].toString()));
-        instrument.setBaseOctave(Integer.parseInt(args[2].toString()));
+        instrument = InstrumentSystem.requestInstrument(InstrumentDescriptor.valueOf(instrumentName));
+        instrument.setBaseOctave(startingOctave);
 
+        try {
+            List<Melody> melodies = MelodyReader.read(melodyFile);
+            System.out.println(melodies.size() + " melodies");
+
+            melodyBehaviour = new MelodyPlayingBehaviour(this, melodies, bpm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
@@ -72,7 +98,7 @@ public class MusicianAgent extends Agent {
                             MusicianAgent.this.degreeShift =  Integer.parseInt(aux[0]);
                             System.out.println(myAgent.getLocalName()+" new Degree: "+MusicianAgent.this.degreeShift);
                         }
-                       // System.out.println("Agent " + getLocalName() + " received \"" + msg.getContent() + "\" from " + msg.getSender().getLocalName() + "@" + Instant.now());
+                        System.out.println("Agent " + getLocalName() + " received \"" + msg.getContent() + "\" from " + msg.getSender().getLocalName() + "@" + Instant.now());
                         handleMessage(msg);
                     }
                 } while (msg != null);
@@ -85,7 +111,7 @@ public class MusicianAgent extends Agent {
 
     
     protected void handleMessage(ACLMessage msg) {
-        if (msg.getSender().getLocalName().equalsIgnoreCase("conductor")) {
+        if (msg.getSender().getLocalName().equalsIgnoreCase("conductor") && msg.getPerformative() == ACLMessage.INFORM) {
            int beat = Integer.parseInt(msg.getContent());
 
            beat(beat);
@@ -94,16 +120,24 @@ public class MusicianAgent extends Agent {
         
         if (msg.getContent().equalsIgnoreCase("remainingBeats")) {
             ACLMessage reply = msg.createReply();
-            int remaining = melodyBehaviour.getCurrentMelody().countBeats() - cumulativeBeats;
-            reply.setContent(remaining + " remaining");
-            send(reply);
-        }else if(msg.getContent().equalsIgnoreCase("changeDegree")){
-            ACLMessage reply = msg.createReply();
-            int randomNumber = (int)(Math.random() * ((4 - 0) + 1));
-            reply.setContent(randomNumber + " actualDegree");
+            reply.setContent(getRemainingBeats() + " remaining");
             send(reply);
         }
         
+        // TODO CORRIGIR!!!
+//        if(msg.getContent().equalsIgnoreCase("changeDegree")){
+//            ACLMessage reply = msg.createReply();
+//            int randomNumber = (int)(Math.random() * ((4 - 0) + 1));
+//            reply.setContent(randomNumber + " actualDegree");
+//            send(reply);
+//        }
+        
+        if (tuningPattern.matcher(msg.getContent()).matches()) {
+            String[] parts = msg.getContent().split(" ");
+            instrument.tune(new DiatonicScale(parts[0], ScaleType.valueOf(parts[1])));
+        }
+
+
         if (msg.getContent().startsWith("synchronize")) {
             String[] parts = msg.getContent().split(" ");
             int melody = Integer.parseInt(parts[1]);
@@ -111,6 +145,14 @@ public class MusicianAgent extends Agent {
             
             melodyBehaviour.synchronize(toWait, melody);
         }
+    }
+    
+    public int getRemainingBeats() {
+        if (melodyBehaviour == null || melodyBehaviour.getCurrentMelody() == null) {
+            return -1;
+        }
+        
+        return melodyBehaviour.getCurrentMelody().countBeats() - cumulativeBeats;
     }
     
     private void sendMessageToMap() {
@@ -134,9 +176,7 @@ public class MusicianAgent extends Agent {
         computeBPM();
         cumulativeBeats++;
         
-        
-        
-        if (index == 1 && beatQueue.isFull() && melodyBehaviour == null) {
+        if (index == 1 && beatQueue.isFull() && !playing) {
             beginPlaying();
         }
     }
@@ -164,19 +204,11 @@ public class MusicianAgent extends Agent {
     }
 
     private void beginPlaying() {
-        Object[] args = getArguments();
-        try {
-            String file = (args != null && args.length > 0) ? args[0].toString() : "melodies.txt";
-            List<Melody> melodies = MelodyReader.read(file);
-            System.out.println(melodies.size() + " melodies");
-            
-            melodyBehaviour = new MelodyPlayingBehaviour(this, melodies, bpm);
-            addBehaviour(melodyBehaviour);
-            
-            cumulativeBeats = 0;
-        } catch (IOException ex) {
-            Logger.getLogger(MusicianAgent.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        addBehaviour(melodyBehaviour);
+        melodyBehaviour.finishMelody();
+
+        cumulativeBeats = 0;
+        playing = true;
     }
 
     public void notifyMelodyCompletion() {
@@ -197,4 +229,17 @@ public class MusicianAgent extends Agent {
         return melodyBehaviour;
     }
 
+    public String getSection() {
+        return section;
+    }
+
+    public String getMusicalRole() {
+        return musicalRole;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+    
+    
 }

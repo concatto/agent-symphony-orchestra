@@ -1,1 +1,1 @@
-http://arch-jao:7778/acc
+http://lia.localdomain:7778/acc

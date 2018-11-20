@@ -66,6 +66,10 @@ public class SoundController {
     public void off(int note, int channel) {
         channels[channel].noteOff(note);
     }
+    
+    public void allOff(int channel) {
+        channels[channel].allNotesOff();
+    }
 
     public void changeInstrument(int instrument, int channel) {
         int currentInstrument = channels[channel].getProgram();

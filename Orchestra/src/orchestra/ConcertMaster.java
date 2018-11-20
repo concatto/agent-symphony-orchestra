@@ -10,6 +10,7 @@ import jade.domain.FIPAException;
 import jade.domain.introspection.AddedBehaviour;
 import jade.gui.AgentTree.SuperContainer;
 import jade.lang.acl.ACLMessage;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,12 +19,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-public class ConcertMaster extends MusicianAgent {
+public class ConcertMaster extends SectionLeader {
     private ReplyExpectation expectation;
     private ReplyExpectation expectationDegree;
+    private final Map<String, String> sentimentMap;
    
     public ConcertMaster() {
-        
+        sentimentMap = new HashMap<>();
+        sentimentMap.put("grandioso", "D MAJOR");
+        sentimentMap.put("espressivo", "G MAJOR");
+        sentimentMap.put("lacrimoso", "Eb MINOR");
+        sentimentMap.put("appassionato", "C MINOR");
     }
 
     @Override
@@ -36,13 +42,21 @@ public class ConcertMaster extends MusicianAgent {
         super.handleMessage(msg);
         
         //if (msg.getPerformative()== ACLMessage.PROPAGATE) {
-            if (msg.getContent().equalsIgnoreCase("tutti")) {
-                System.out.println("Tutti received");
-                handleTuttiRequest();
-            }else if(msg.getContent().equalsIgnoreCase("willChangeDegree")){
-                System.out.println("DegreeShift warning received");
-                handleDegreeRequest();
+        if (msg.getContent().equalsIgnoreCase("tutti")) {
+            System.out.println("Tutti received");
+            handleTuttiRequest();
+        } else if (msg.getContent().equalsIgnoreCase("willChangeDegree")){
+            System.out.println("DegreeShift warning received");
+            handleDegreeRequest();
+        } else if (sentimentMap.containsKey(msg.getContent())) {
+            String interpretation = sentimentMap.get(msg.getContent());
+            
+            try {
+                DirectoryUtils.broadcast(this, ACLMessage.INFORM, interpretation, "musician");
+            } catch (FIPAException ex) {
+                Logger.getLogger(ConcertMaster.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
         //}
         
         testExpectation(expectation, msg, this::handleTuttiResponse);
@@ -61,15 +75,7 @@ public class ConcertMaster extends MusicianAgent {
 
     public void handleDegreeRequest() {
         try {
-            List<AID> musicians = DirectoryUtils.queryService(this, "musician");
-            ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                
-            for (AID aid : musicians) {
-                msg.addReceiver(aid);
-            }
-            
-            msg.setContent("changeDegree");
-            send(msg);
+            List<AID> musicians = DirectoryUtils.broadcast(this, ACLMessage.INFORM, "changeDegree", "musician");
             
             expectationDegree = expectReply(musicians, "\\d+ actualDegree");
         } catch (FIPAException ex) {
@@ -79,21 +85,13 @@ public class ConcertMaster extends MusicianAgent {
     
     public void handleTuttiRequest() {
         try {
-            List<AID> musicians = DirectoryUtils.queryService(this, "treble");
-            ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                
-            for (AID aid : musicians) {
-                msg.addReceiver(aid);
-            }
-            
-            msg.setContent("remainingBeats");
-            send(msg);
+            List<AID> musicians = DirectoryUtils.broadcast(this, ACLMessage.REQUEST, "remainingBeats", "treble");
             
             expectation = expectReply(musicians, "\\d+ remaining");
         } catch (FIPAException ex) {
             Logger.getLogger(ConcertMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
     
     private ReplyExpectation expectReply(List<AID> musicians, String regex) {
         return new ReplyExpectation(musicians, Pattern.compile(regex));

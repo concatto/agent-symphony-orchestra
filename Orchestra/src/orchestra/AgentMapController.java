@@ -20,9 +20,9 @@ public class AgentMapController extends Agent{
     
     @Override
     protected void setup() {
-        map.onCommand(command -> {            
+        map.onCommand(command -> {
             ACLMessage message = new ACLMessage(ACLMessage.PROPAGATE);
-            message.addReceiver(new AID("spalla", AID.ISLOCALNAME));
+            message.addReceiver(new AID("conductor", AID.ISLOCALNAME));
             message.setContent(command);
             send(message);
         });

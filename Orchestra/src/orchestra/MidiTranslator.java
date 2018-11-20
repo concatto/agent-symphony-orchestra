@@ -13,22 +13,33 @@ import java.util.Map;
  * @author concatto
  */
 public class MidiTranslator {
-    private static Map<Character, Integer> noteMap;
+    private static Map<String, Integer> noteMap;
     
     static {
-        Map<Character, Integer> notes = new HashMap<>();
-        notes.put('C', 0);
-        notes.put('D', 2);
-        notes.put('E', 4);
-        notes.put('F', 5);
-        notes.put('G', 7);
-        notes.put('A', 9);
-        notes.put('B', 11);
+        Map<String, Integer> notes = new HashMap<>();
+        notes.put("C", 0);
+        notes.put("C#", 1);
+        notes.put("Db", 1);
+        notes.put("D", 2);
+        notes.put("D#", 3);
+        notes.put("Eb", 3);
+        notes.put("E", 4);
+        notes.put("Fb", 4);
+        notes.put("F", 5);
+        notes.put("F#", 6);
+        notes.put("Gb", 6);
+        notes.put("G", 7);
+        notes.put("G#", 8);
+        notes.put("Ab", 8);
+        notes.put("A", 9);
+        notes.put("A#", 10);
+        notes.put("Bb", 10);
+        notes.put("B", 11);
         
         noteMap = new HashMap<>(notes);
     }
     
-    public static int translate(char note, int octave) {
-       return noteMap.get(Character.toUpperCase(note)) + (octave * 12);
+    public static int translate(String note, int octave) {
+       return noteMap.get(note) + (octave * 12);
     }
 }
