@@ -22,7 +22,7 @@ public class MapStage extends JPanel {
         agentsPanel.add(new MusicianPanel(100, 370, 50, 370, "violino.png", "violino2.png"));
         agentsPanel.add(new MusicianPanel(300, 370, 250, 370, "cello.png", "cello2.png"));
         agentsPanel.add(new MusicianPanel(500, 370, 450, 370, "flauta.png", "flauta2.png"));
-        agentsPanel.add(new MusicianPanel(320, 280, 0,0, "flauta.png", "violino.png"));
+        agentsPanel.add(new MusicianPanel(320, 280, 0,0, "maestro2.png", "maestro3.png"));
         
         try {
             this.image = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("palco.jpg"), "palco.jpg"));
