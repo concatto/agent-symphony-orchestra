@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class MidiTranslator {
     private static Map<String, Integer> noteMap;
+    private static List<String> inverseNoteMap;
     
     static {
         Map<String, Integer> notes = new HashMap<>();
@@ -37,9 +38,17 @@ public class MidiTranslator {
         notes.put("B", 11);
         
         noteMap = new HashMap<>(notes);
+        inverseNoteMap = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
     }
     
     public static int translate(String note, int octave) {
        return noteMap.get(note) + (octave * 12);
+    }
+    
+    public static String inverseTranslate(int midiCode) {
+       String note = inverseNoteMap.get(midiCode % 12);
+       int octave = ((int) (midiCode / 12)) - 1;
+       
+       return String.format("%s %d", note, octave);
     }
 }
