@@ -34,12 +34,9 @@ public class MapStage extends JPanel {
     }
     
     //Vai precisar adicionar a tonica ai tambem pra fazer o calculo
-    public void setNoteImage(int shiftDegree) {
-        switch (shiftDegree) {
-            case 0:
-                
-                break;
-        }
+    public void changeNoteImage(String note, int agenteIndex) {
+        agentsPanel.get(agenteIndex).switchNoteImage(note);
+        repaint();
     }
     
     public void changeImage(int agenteIndex) {
@@ -53,7 +50,7 @@ public class MapStage extends JPanel {
         
         for(MusicianPanel m : agentsPanel) {
             g.drawImage(m.currentImage, m.x, m.y, 100, 100, this);
-            g.drawImage(m.currentNote, m.xnote, m.ynote, 100, 100, this);
+            g.drawImage(m.currentNote, m.xnote, m.ynote, 50, 50, this);
         }
         //g.drawImage(currentImage, x, y, 100, 100, this);
         //g.drawImage(currentImage, x*2, y*2, 100, 100, this);

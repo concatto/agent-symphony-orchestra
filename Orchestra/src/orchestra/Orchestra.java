@@ -79,8 +79,8 @@ public class Orchestra {
             clarinet = ac.createNewAgent("wind", "orchestra.SectionLeader", objClarinet);
             clarinet.start();
             
-            flute = ac.createNewAgent("flute", "orchestra.MusicianAgent", objFlute);
-            flute.start();
+            //flute = ac.createNewAgent("flute", "orchestra.MusicianAgent", objFlute);
+            //flute.start();
             
             
         } catch (StaleProxyException ex) {

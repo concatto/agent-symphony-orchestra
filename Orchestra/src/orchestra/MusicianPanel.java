@@ -32,7 +32,7 @@ public class MusicianPanel extends JPanel{
             this.image1 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName), imageName));
             this.image2 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName2), imageName2));
             currentImage = image1;
-            currentNote = currentImage;
+            currentNote = null;
         } catch (MalformedURLException ex) {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -40,9 +40,9 @@ public class MusicianPanel extends JPanel{
         }
     }
     
-    public void setNoteImage(String noteName) {
+    public void switchNoteImage(String noteName) {
         try {
-            this.currentNote = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(noteName), noteName));
+            this.currentNote = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(noteName+".png"), noteName+".png"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

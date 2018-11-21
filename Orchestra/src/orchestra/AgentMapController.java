@@ -32,6 +32,7 @@ public class AgentMapController extends Agent{
             public void action() {
                 ACLMessage msg = receive();
                 if (msg != null) {
+                   
                     if (msg.getSender().getLocalName().equals("conductor")) {
                         changeMapState(msg.getContent(), 3);
                     }
@@ -64,12 +65,18 @@ public class AgentMapController extends Agent{
     }
     
     private void changeMapState(String msg, int agentIndex) {
-        if (msg.equals("changeNoteImage")) {
-            //do something;
+        //process the msg
+        //imageName, Flag = msg.treatment();
+        if (msg.equals("C FlagToChangeNote")) {
+            
         }
         else {
             map.stage.changeImage(agentIndex);
+            if (agentIndex != 3 ) {
+                map.stage.changeNoteImage("C", agentIndex);   
+            }
         }
+        
     }
     
 }
