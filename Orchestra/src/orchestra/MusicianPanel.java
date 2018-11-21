@@ -28,16 +28,16 @@ public class MusicianPanel extends JPanel{
         this.xnote = xnote;
         this.ynote = ynote;
         
-//        try {
-//            this.image1 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName), imageName));
-//            this.image2 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName2), imageName2));
-//            currentImage = image1;
-//            currentNote = null;
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            this.image1 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName), imageName));
+            this.image2 = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource(imageName2), imageName2));
+            currentImage = image1;
+            currentNote = null;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MapStage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void switchNoteImage(String noteName) {

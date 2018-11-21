@@ -66,15 +66,22 @@ public class AgentMapController extends Agent{
     private void changeMapState(String msg, int agentIndex) {
         //process the msg
         //imageName, Flag = msg.treatment();
-//        if (msg.equals("C FlagToChangeNote")) {
-//            if (agentIndex != 3 ) {
-//                map.stage.changeNoteImage("C", agentIndex);   
-//            }
-//        }
-//        else {
-//            map.stage.changeImage(agentIndex);
-//        }
+        String note;
+        String flag;
         
+        try {
+            note = msg.substring(0, 2);
+            if (note.charAt(1) == '#') {
+                note = note.substring(0, 1) + "sus";
+            }
+            flag = msg.substring(2, 16);
+            
+            if (agentIndex != 3 ) {
+                map.stage.changeNoteImage(note, agentIndex);   
+            }
+        } catch(Exception e) {
+            map.stage.changeImage(agentIndex);
+        }
     }
     
 }

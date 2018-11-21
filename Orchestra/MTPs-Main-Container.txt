@@ -1,1 +1,1 @@
-http://lia.localdomain:7778/acc
+http://DESKTOP-69H2JVN:7778/acc
