@@ -33,7 +33,7 @@ public class AgentMapController extends Agent{
                 ACLMessage msg = receive();
                 if (msg != null) {
                     if (msg.getSender().getLocalName().equals("conductor")) {
-                        changeMapState(msg.getContent(), 3);
+                        //changeMapState(msg.getContent(), 3);
                     }
                     else if (msg.getSender().getLocalName().equals("violin")) {
                         changeMapState(msg.getContent(), 0);

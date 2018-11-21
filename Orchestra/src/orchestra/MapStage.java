@@ -36,12 +36,23 @@ public class MapStage extends JPanel {
     //Vai precisar adicionar a tonica ai tambem pra fazer o calculo
     public void changeNoteImage(String note, int agenteIndex) {
         agentsPanel.get(agenteIndex).switchNoteImage(note);
-        repaint();
+        switch (agenteIndex) {
+            case 0:
+                repaint(50, 350, 75, 75);
+                break;
+            case 1:
+                repaint(230, 350, 75, 75);
+                break;
+            case 2:
+                repaint(430, 350, 75, 75);
+                break;
+        }
+        
     }
     
     public void changeImage(int agenteIndex) {
         agentsPanel.get(agenteIndex).switchImage();
-        repaint();
+        //repaint(310, 270, 110, 110);
     }
 
     public void paint( Graphics g ) {
@@ -52,6 +63,7 @@ public class MapStage extends JPanel {
             g.drawImage(m.currentImage, m.x, m.y, 100, 100, this);
             g.drawImage(m.currentNote, m.xnote, m.ynote, 50, 50, this);
         }
+        
         //g.drawImage(currentImage, x, y, 100, 100, this);
         //g.drawImage(currentImage, x*2, y*2, 100, 100, this);
     }
