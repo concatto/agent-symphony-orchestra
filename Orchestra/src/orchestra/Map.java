@@ -93,8 +93,8 @@ public class Map extends JFrame{
     
     public Map() {
         
-        this.bpmCount = 1000;
-        this.oldBpmCount = 1000;
+        this.bpmCount = 700;
+        this.oldBpmCount = 700;
         bpms = new JLabel(bpmCount.toString());
         
         initActionListeners();

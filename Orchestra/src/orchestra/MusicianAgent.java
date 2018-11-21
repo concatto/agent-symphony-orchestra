@@ -254,7 +254,7 @@ public class MusicianAgent extends Agent {
         message.addReceiver(new AID("agentMap", AID.ISLOCALNAME));
         
         String note = MidiTranslator.inverseTranslate(code);
-        //System.out.println(note);
+        System.out.println(getLocalName() + ": " + note);
         message.setContent(note + " FlagToChangeNote");
         send(message);
     }
