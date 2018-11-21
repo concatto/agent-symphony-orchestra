@@ -40,6 +40,7 @@ public class Orchestra {
         AgentController conductor;
         AgentController violin;
         AgentController bass;
+        AgentController bass2;
         AgentController clarinet;
         AgentController flute;
         AgentController agentMap;
@@ -52,10 +53,12 @@ public class Orchestra {
         musicalRole = arguments[3].toString();
         section = arguments[4].toString();
         */
-        Object[] objViolin = new Object[]{"treble.txt", "FAST_STRINGS", "5", "treble", "violins"};
+        Object[] objViolin = new Object[]{"treble.txt", "VIOLIN", "4", "treble", "violins"};
+        Object[] objStrings = new Object[]{"treble.txt", "FAST_STRINGS", "4", "treble", "violins"};
         Object[] objClarinet = new Object[]{"treble.txt", "CLARINET", "5", "treble", "winds"};
         Object[] objFlute = new Object[]{"treble.txt", "FLUTE", "5", "treble", "winds"};
-        Object[] objBass = new Object[]{"bass.txt", "SLOW_STRINGS", "4", "bass", "continuo"};
+        Object[] objBass = new Object[]{"bass.txt", "CELLO", "3", "bass", "continuo"};
+        Object[] objBass2 = new Object[]{"bass.txt", "CONTRABASS", "3", "bass", "continuo"};
         
         try {
             
@@ -69,10 +72,10 @@ public class Orchestra {
             spalla.start();
             
             //bass = ac.createNewAgent("heifetz", "orchestra.MusicianAgent", objBass);
-            bass = ac.createNewAgent("cello", "orchestra.MusicianAgent", objBass);
+            bass = ac.createNewAgent("cello", "orchestra.SectionLeader", objBass);
             bass.start();
             
-            violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objViolin);
+            violin = ac.createNewAgent("violin", "orchestra.MusicianAgent", objStrings);
             violin.start();
 ////            
             
@@ -81,6 +84,9 @@ public class Orchestra {
             
             //flute = ac.createNewAgent("flute", "orchestra.MusicianAgent", objFlute);
             //flute.start();
+            
+            bass2 = ac.createNewAgent("bass2", "orchestra.MusicianAgent", objBass2);
+            bass2.start();
             
             
         } catch (StaleProxyException ex) {

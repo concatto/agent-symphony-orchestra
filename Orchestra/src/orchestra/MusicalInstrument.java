@@ -25,7 +25,7 @@ public class MusicalInstrument {
     }
     
     public void tune(DiatonicScale tuning) {
-        controller.allOff(assignedChannel);
+        //controller.allOff(assignedChannel);
         this.tuning = tuning;
     }
 
@@ -42,11 +42,18 @@ public class MusicalInstrument {
         return tonic + tuning.semitonesFromTonic(degree, accident);
     }
     
-    public void play(int degree, Accident accident) {
-        controller.on(calculateMidiCode(degree, accident), assignedChannel);
+    public int play(int degree, Accident accident) {
+        int code = calculateMidiCode(degree, accident);
+        
+        controller.on(code, assignedChannel);
+        return code;
     }
     
     public void stop(int degree, Accident accident) {
-        controller.off(calculateMidiCode(degree, accident), assignedChannel);
+        rawStop(calculateMidiCode(degree, accident));
+    }
+    
+    public void rawStop(int code) {
+        controller.off(code, assignedChannel);
     }
 }

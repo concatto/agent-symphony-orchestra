@@ -54,7 +54,7 @@ public class Map extends JFrame{
         });
         
         downButton.addActionListener((event) -> {
-            if (this.bpmCount - 100 > 0) {
+            if (this.bpmCount - 100 > 300) {
                 this.oldBpmCount = bpmCount;
                 this.bpmCount = bpmCount - 100;
                 bpms.setText(bpmCount.toString());
@@ -93,8 +93,8 @@ public class Map extends JFrame{
     
     public Map() {
         
-        this.bpmCount = 500;
-        this.oldBpmCount = 500;
+        this.bpmCount = 1000;
+        this.oldBpmCount = 1000;
         bpms = new JLabel(bpmCount.toString());
         
         initActionListeners();

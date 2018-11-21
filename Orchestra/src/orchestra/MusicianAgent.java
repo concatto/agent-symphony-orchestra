@@ -125,12 +125,12 @@ public class MusicianAgent extends Agent {
         }
         
         // TODO CORRIGIR!!!
-//        if(msg.getContent().equalsIgnoreCase("changeDegree")){
-//            ACLMessage reply = msg.createReply();
-//            int randomNumber = (int)(Math.random() * ((4 - 0) + 1));
-//            reply.setContent(randomNumber + " actualDegree");
-//            send(reply);
-//        }
+        if(msg.getContent().equalsIgnoreCase("changeDegree")){
+            ACLMessage reply = msg.createReply();
+            int randomNumber = (int)(Math.random() * ((4 - 0) + 1));
+            reply.setContent(randomNumber + " actualDegree");
+            send(reply);
+        }
         
         if (tuningPattern.matcher(msg.getContent()).matches()) {
             String[] parts = msg.getContent().split(" ");
@@ -162,12 +162,20 @@ public class MusicianAgent extends Agent {
         send(msg3);
     }
     
-    public void play(Note note) {
-        instrument.play(note.getPitch() + degreeShift, note.getAccident());
+    public int play(Note note) {
+        int code = instrument.play(note.getPitch() + degreeShift, note.getAccident());
+        
+        notifyUI(code);
+        
+        return code;
     }
     
     public void stop(Note note) {
         instrument.stop(note.getPitch() + degreeShift, note.getAccident());
+    }
+    
+    public void rawStop(int code) {
+        instrument.rawStop(code);
     }
     
     public void beat(int index) {
@@ -239,6 +247,16 @@ public class MusicianAgent extends Agent {
 
     public boolean isPlaying() {
         return playing;
+    }
+
+    private void notifyUI(int code) {
+        ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+        message.addReceiver(new AID("agentMap", AID.ISLOCALNAME));
+        
+        String note = MidiTranslator.inverseTranslate(code);
+        //System.out.println(note);
+        message.setContent(note + " FlagToChangeNote");
+        send(message);
     }
     
     

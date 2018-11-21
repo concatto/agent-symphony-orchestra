@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conductor extends Agent {
-    private int timer = 500;
+    private int timer = 1000;
     private int beatIndex = 1;
     private Set<AID> musicians = new HashSet<>();
     

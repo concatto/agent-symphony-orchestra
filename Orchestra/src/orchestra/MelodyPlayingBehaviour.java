@@ -27,6 +27,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
     private long startTime;
     private int beatsToWait = 0;
     private int nextMelody = -1;
+    private int currentNote;
     
     public MelodyPlayingBehaviour(Agent myAgent, List<Melody> melodies, float bpm) {
         super(myAgent);
@@ -55,7 +56,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         }
         
         if (noteIndex > 0) {
-            agent.stop(currentMelody.getNotes().get(noteIndex - 1));
+            agent.rawStop(currentNote);
             //System.out.println("Stopping " + melody.getNotes().get(noteIndex - 1).getTone());
 
             if (noteIndex >= currentMelody.getNotes().size()) {
@@ -66,7 +67,7 @@ public class MelodyPlayingBehaviour extends CyclicBehaviour {
         Note note = currentMelody.getNotes().get(noteIndex);
         
         if (!note.isRest()) {
-            agent.play(note);
+            currentNote = agent.play(note);
             //System.out.println("Playing " + note.getTone());
         }
         
